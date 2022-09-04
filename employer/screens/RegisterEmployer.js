@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    Alert,
     Image,
     ScrollView,
     StyleSheet,
@@ -11,8 +12,9 @@ import {
 import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { db, storage } from "../../firebase";
+import { ref, uploadBytes } from "firebase/storage";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [name, setName] = useState("");
@@ -45,6 +47,7 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             } else {
+                submitData();
                 await setDoc(doc(db, "infoEmployer", idUser), {
                     userId: idUser,
                     role: "employer",
@@ -58,7 +61,8 @@ const RegisterEmployer = ({ route, navigation }) => {
                     fax: fax,
                     website: website,
                 });
-                navigation.replace("HomeEmployer");
+
+                //navigation.replace("HomeEmployer");
             }
         } else {
             alert("Veuillez remplir tous les champs !");
@@ -67,6 +71,7 @@ const RegisterEmployer = ({ route, navigation }) => {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
@@ -77,6 +82,18 @@ const RegisterEmployer = ({ route, navigation }) => {
             setProfilImg(result.uri);
         }
     };
+
+    // const submitData = () => {
+    //     const storageRef = ref(storage, "profilImg");
+
+    //     uploadBytes(storageRef, profilImg)
+    //         .then((snapshot) => {
+    //             console.log("Upload !!");
+    //         })
+    //         .catch((error) => {
+    //             console.log(error.message);
+    //         });
+    // };
 
     return (
         <LinearGradient colors={["#1A91DA", "white"]} style={styles.container}>
