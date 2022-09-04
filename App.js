@@ -5,9 +5,8 @@ import Register from "./screens/Register";
 import Login from "./screens/Login";
 import RegisterCandidate from "./candidate/screens/RegisterCandidate";
 import RegisterEmployer from "./employer/screens/RegisterEmployer";
-import StackNavScreenCandidate from "./candidate/routes/StackNavCandidate";
 import DrawerNavCandidate from "./candidate/routes/DrawerNavCandidate";
-import HomeEmployer from "./employer/screens/HomeEmployer";
+import DrawerNavEmployer from "./employer/routes/DrawerNavEmployer";
 
 const Stack = createStackNavigator();
 
@@ -35,7 +34,10 @@ export default function App() {
                     name="HomeCandidate"
                     component={DrawerNavCandidate}
                 />
-                <Stack.Screen name="HomeEmployer" component={HomeEmployer} />
+                <Stack.Screen
+                    name="HomeEmployer"
+                    component={DrawerNavEmployer}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );
