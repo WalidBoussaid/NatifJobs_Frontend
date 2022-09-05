@@ -47,7 +47,7 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             } else {
-                submitData();
+                //submitData();
                 await setDoc(doc(db, "infoEmployer", idUser), {
                     userId: idUser,
                     role: "employer",
@@ -79,7 +79,19 @@ const RegisterEmployer = ({ route, navigation }) => {
         console.log(result);
 
         if (!result.cancelled) {
-            setProfilImg(result.uri);
+            //setProfilImg(result.uri);
+            const storageRef = ref(storage, "profilImg/"+idUser);
+
+            const img = await fetch(result.uri);
+            const bytes = await img.blob();
+
+            await uploadBytes(storageRef, bytes)
+            .then(() => {
+                console.log('Succes')
+            })
+            .catch((error) => {
+                console.log('Failed !')
+            })
         }
     };
 
