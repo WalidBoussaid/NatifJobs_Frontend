@@ -11,8 +11,9 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
-import { db } from "../../firebase";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { db, storage } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const RegisterCandidate = ({ route, navigation }) => {
     const [lastName, setLastName] = useState("");
@@ -31,8 +32,11 @@ const RegisterCandidate = ({ route, navigation }) => {
     const [hobbies, setHobbies] = useState("");
     const [cv, setCv] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+    const [urlProfilImage, setUrlProfilImage] = useState("");
 
     const idUser = route.params.user.uid.toString();
+
+    const storageRef = ref(storage, "profilImg/" + idUser);
 
     const handleSubmit = async () => {
         if (
@@ -53,6 +57,7 @@ const RegisterCandidate = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             } else {
+                console.log(urlProfilImage);
                 await setDoc(doc(db, "infoCandidate", idUser), {
                     userId: idUser,
                     lastName: lastName,
@@ -67,7 +72,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                     lastDiplomaObtained: lastDiplomaObtained,
                     hobbies: hobbies,
                     cv: cv,
-                    profilImg: profilImg,
+                    profilImg: urlProfilImage,
                     role: "candidate",
                 });
                 navigation.replace("HomeCandidate");
@@ -87,7 +92,25 @@ const RegisterCandidate = ({ route, navigation }) => {
 
         if (!result.cancelled) {
             setProfilImg(result.uri);
+
+            const img = await fetch(result.uri);
+            const bytes = await img.blob();
+
+            await uploadBytes(storageRef, bytes)
+                .then(() => {
+                    console.log("success");
+                })
+                .catch((error) => {
+                    console.log("Failed !");
+                });
         }
+
+        await fetchUrl();
+    };
+
+    const fetchUrl = async () => {
+        const test = await getDownloadURL(storageRef);
+        setUrlProfilImage(test);
     };
 
     return (

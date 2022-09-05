@@ -12,18 +12,23 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (email.length > 0 && password.length > 0) {
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     // Signed in
                     const user = userCredential.user;
+                    //console.log(user);
                     const userId = user.uid;
+
+                    await AsyncStorage.setItem("userId", userId);
+
                     const c = query(
                         collection(db, "infoCandidate"),
                         where("userId", "==", userId)

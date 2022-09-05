@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [name, setName] = useState("");
@@ -29,8 +29,11 @@ const RegisterEmployer = ({ route, navigation }) => {
     const [fax, setFax] = useState("");
     const [website, setWebsite] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+    const [urlProfilImage, setUrlProfilImage] = useState("");
 
     const idUser = route.params.user.uid.toString();
+
+    const storageRef = ref(storage, "profilImg/" + idUser);
 
     const handleSubmit = async () => {
         if (
@@ -47,13 +50,12 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             } else {
-                //submitData();
                 await setDoc(doc(db, "infoEmployer", idUser), {
                     userId: idUser,
                     role: "employer",
                     name: name,
                     email: email,
-                    profilImg: profilImg,
+                    profilImg: urlProfilImage,
                     tva: tva,
                     adress: adress,
                     postalCode: postalCode,
@@ -62,7 +64,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     website: website,
                 });
 
-                //navigation.replace("HomeEmployer");
+                navigation.replace("HomeEmployer");
             }
         } else {
             alert("Veuillez remplir tous les champs !");
@@ -79,33 +81,27 @@ const RegisterEmployer = ({ route, navigation }) => {
         console.log(result);
 
         if (!result.cancelled) {
-            //setProfilImg(result.uri);
-            const storageRef = ref(storage, "profilImg/"+idUser);
+            setProfilImg(result.uri);
 
             const img = await fetch(result.uri);
             const bytes = await img.blob();
 
             await uploadBytes(storageRef, bytes)
-            .then(() => {
-                console.log('Succes')
-            })
-            .catch((error) => {
-                console.log('Failed !')
-            })
+                .then(() => {
+                    console.log("success");
+                })
+                .catch((error) => {
+                    console.log("Failed !");
+                });
         }
+
+        await fetchUrl();
     };
 
-    // const submitData = () => {
-    //     const storageRef = ref(storage, "profilImg");
-
-    //     uploadBytes(storageRef, profilImg)
-    //         .then((snapshot) => {
-    //             console.log("Upload !!");
-    //         })
-    //         .catch((error) => {
-    //             console.log(error.message);
-    //         });
-    // };
+    const fetchUrl = async () => {
+        const test = await getDownloadURL(storageRef);
+        setUrlProfilImage(test);
+    };
 
     return (
         <LinearGradient colors={["#1A91DA", "white"]} style={styles.container}>
