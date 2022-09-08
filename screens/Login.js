@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import {
-    Button,
     Pressable,
     StyleSheet,
     Text,
@@ -16,6 +15,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        const verifyConnect = async () => {
+            const token = await AsyncStorage.getItem("token");
+            const role = await AsyncStorage.getItem("role");
+
+            if (token) {
+                if (role == "candidate") {
+                    navigation.navigate("HomeCandidate");
+                } else if (role == "employer") {
+                    navigation.navigate("HomeEmployer");
+                } else {
+                    alert("admin");
+                }
+            }
+        };
+        verifyConnect();
+    }, []);
 
     const handleSubmit = async () => {
         try {
@@ -65,6 +82,7 @@ const Login = ({ navigation }) => {
                     const token = data.token;
 
                     await AsyncStorage.setItem("token", token);
+                    await AsyncStorage.setItem("role", data.role);
 
                     if (data.role == "candidate") {
                         navigation.navigate("HomeCandidate");
