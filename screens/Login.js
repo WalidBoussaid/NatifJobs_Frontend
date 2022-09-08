@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-
 import {
     Button,
     Pressable,
@@ -12,70 +11,68 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
     const handleSubmit = async () => {
-        if (email.length > 0 && password.length > 0) {
-            signInWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => {
-                    // Signed in
-                    const user = userCredential.user;
-                    //console.log(user);
-                    const userId = user.uid;
+        try {
+            let isVerified = true;
+            if (email == "") {
+                isVerified = false;
+                alert("Veuillez remplir le champ email !");
+            }
+            if (
+                !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(email) ||
+                email.length < 7
+            ) {
+                isVerified = false;
+                alert("Veuillez entrer un email valide");
+            }
+            if (password == "") {
+                isVerified = false;
+                alert("Veuillez remplir le champ mot de passe !");
+            }
+            if (password.length < 6) {
+                isVerified = false;
+                alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+            if (isVerified) {
+                const log = {
+                    mail: email,
+                    password: password,
+                };
 
-                    await AsyncStorage.setItem("userId", userId);
-
-                    const c = query(
-                        collection(db, "infoCandidate"),
-                        where("userId", "==", userId)
-                    );
-                    const querySnapshotC = await getDocs(c);
-                    querySnapshotC.forEach((doc) => {
-                        // console.log(doc.id, " => ", doc.data());
-                        /*
-                        c5ZRE1oZKJbI4WeMceNs8mmUBCh1  =>  {"adress": "aaaaaaaaaa", "cv": "aaaaaaaaaa", "dateOfBirth": "aaaaaaaa", "email": "walid@gmail.com", "firstName": "walid", "hobbies": "aaaaaa", "lastDiplomaObtained": "aaaaaaa", "lastExperiencepro": "aaaaaaaaaaaaaaaa", "lastName": "bou", "nationality": "aaaaaaaaaa", "placeOfBirth": "aaaaaaaaa", "postalCode": "aaaaaaaaa", "profilImg": "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png", "role": "candidate", "userId": "c5ZRE1oZKJbI4WeMceNs8mmUBCh1"}
-                        */
-                        if (userId === doc.id) {
-                            navigation.navigate("HomeCandidate");
-                        }
-                    });
-                    const e = query(
-                        collection(db, "infoEmployer"),
-                        where("userId", "==", userId)
-                    );
-                    const querySnapshotE = await getDocs(e);
-                    querySnapshotE.forEach((doc) => {
-                        // console.log(doc.id, " => ", doc.data());
-                        /*
-                        KV5mrYIz9AUXJQu9SZ6RKbJgAfL2  =>  {"adress": "rue du tata, 1289", "email": "test@gmail.com", "fax": "025369968", "name": "Test SPRL", "phone": "025369985", "postalCode": "1090", "profilImg": "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png", "role": "employer", "tva": "be2426786897", "userId": "KV5mrYIz9AUXJQu9SZ6RKbJgAfL2", "website": "www.test.be"}
-                        */
-                        if (userId === doc.id) {
-                            navigation.navigate("HomeEmployer");
-                        }
-                    });
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    if (errorCode === "auth/invalid-email") {
-                        alert("email invalide");
-                    } else if (errorCode === "auth/wrong-password") {
-                        alert("Mot de passe incorrect");
-                    } else if (errorCode === "auth/user-not-found") {
-                        alert("email invalide");
+                const response = await fetch(
+                    "http://192.168.0.119:3000/login/",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(log),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
                     }
-                    alert(errorMessage);
-                });
-        } else {
-            alert("Veuillez remplir tous les champs");
+                );
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.token);
+                    AsyncStorage.setItem("token", data.token);
+                    if (data.role == "candidate") {
+                        navigation.navigate("HomeCandidate");
+                    } else if (data.role == "employer") {
+                        navigation.navigate("HomeEmployer");
+                    } else {
+                        alert("admin");
+                    }
+                } else {
+                    const error = await response.json();
+                    console.log(error);
+                }
+            }
+        } catch (error) {
+            console.log(error.message);
         }
     };
 
