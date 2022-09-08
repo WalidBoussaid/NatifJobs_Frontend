@@ -136,13 +136,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     </View>
 
                     <TextInput
-                        placeholder="Numero de TVA"
-                        style={styles.input}
-                        onChangeText={(text) => setTva(text)}
-                    />
-
-                    <TextInput
-                        placeholder="Adresse"
+                        placeholder="Adresse(rue, numero)"
                         style={styles.input}
                         onChangeText={(text) => setAdress(text)}
                     />
@@ -159,13 +153,6 @@ const RegisterEmployer = ({ route, navigation }) => {
                         keyboardType="phone-pad"
                         style={styles.input}
                         onChangeText={(text) => setPhone(text)}
-                    />
-
-                    <TextInput
-                        placeholder="Fax"
-                        keyboardType="phone-pad"
-                        style={styles.input}
-                        onChangeText={(text) => setFax(text)}
                     />
 
                     <TextInput

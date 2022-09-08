@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 const HomeCandidate = () => {
     return (
         <View style={styles.container}>
             <Text>HomeCandidate</Text>
+            <TextInput
+                placeholder="Numero de telephone"
+                keyboardType="decimal-pad"
+            />
         </View>
     );
 };

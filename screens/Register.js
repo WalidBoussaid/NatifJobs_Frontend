@@ -15,6 +15,8 @@ import { auth } from "../firebase";
 const Register = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isCandidate, setIsCandidate] = useState(false);
+    const [isEmployer, setIsEmployer] = useState(false);
 
     const handleSubmitCandidate = () => {
         if (email.length > 0 && password.length > 0) {
