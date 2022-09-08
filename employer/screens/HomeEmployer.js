@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -17,12 +17,9 @@ const HomeEmployer = () => {
     // };
 
     const fetchData = async () => {
-        let response = await fetch(
-          'http://10.11.10.78:3000/test/'
-        );
-        let json = await response.json();
-        alert(json[0].firstname);
-      }
+        const tok = await AsyncStorage.getItem("token");
+        console.log(tok);
+    };
 
     return (
         <View style={styles.container}>

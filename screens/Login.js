@@ -24,6 +24,7 @@ const Login = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez remplir le champ email !");
             }
+
             if (
                 !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(email) ||
                 email.length < 7
@@ -31,14 +32,17 @@ const Login = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un email valide");
             }
+
             if (password == "") {
                 isVerified = false;
                 alert("Veuillez remplir le champ mot de passe !");
             }
+
             if (password.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
             }
+
             if (isVerified) {
                 const log = {
                     mail: email,
@@ -55,10 +59,13 @@ const Login = ({ navigation }) => {
                         },
                     }
                 );
+
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data.token);
-                    AsyncStorage.setItem("token", data.token);
+                    const token = data.token;
+
+                    await AsyncStorage.setItem("token", token);
+
                     if (data.role == "candidate") {
                         navigation.navigate("HomeCandidate");
                     } else if (data.role == "employer") {
