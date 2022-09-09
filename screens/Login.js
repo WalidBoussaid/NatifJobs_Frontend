@@ -37,22 +37,12 @@ const Login = ({ navigation }) => {
     const handleSubmit = async () => {
         try {
             let isVerified = true;
-            if (email == "") {
-                isVerified = false;
-                alert("Veuillez remplir le champ email !");
-            }
-
             if (
                 !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(email) ||
                 email.length < 7
             ) {
                 isVerified = false;
                 alert("Veuillez entrer un email valide");
-            }
-
-            if (password == "") {
-                isVerified = false;
-                alert("Veuillez remplir le champ mot de passe !");
             }
 
             if (password.length < 6) {
