@@ -18,7 +18,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [name, setName] = useState("");
-    const [email, setEmail] = useState(route.params.user.email);
+    const [email, setEmail] = useState("");
     const [profilImg, setProfilImg] = useState(
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
@@ -31,9 +31,7 @@ const RegisterEmployer = ({ route, navigation }) => {
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
 
-    const idUser = route.params.user.uid.toString();
-
-    const storageRef = ref(storage, "profilImg/" + idUser);
+    const storageRef = ref(storage, "profilImg/" + email);
 
     const handleSubmit = async () => {
         if (
@@ -50,7 +48,7 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             } else {
-                await setDoc(doc(db, "infoEmployer", idUser), {
+                await setDoc(doc(db, "infoEmployer", email), {
                     userId: idUser,
                     role: "employer",
                     name: name,
@@ -104,9 +102,22 @@ const RegisterEmployer = ({ route, navigation }) => {
     };
 
     return (
-        <LinearGradient colors={["#1A91DA", "white"]} style={styles.container}>
+        <LinearGradient colors={["teal", "white"]} style={styles.container}>
             <ScrollView>
                 <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Log's</Text>
+
+                    <TextInput
+                        placeholder="Votre email"
+                        style={styles.input}
+                        onChangeText={(text) => setLastName(text)}
+                    />
+
+                    <TextInput
+                        placeholder="Votre Mot De Passe"
+                        style={styles.input}
+                        onChangeText={(text) => setFirsttName(text)}
+                    />
                     <Text style={styles.text}>Informations société</Text>
 
                     <TextInput
@@ -213,7 +224,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     btnContainer: {
-        backgroundColor: "turquoise",
+        backgroundColor: "lightblue",
         borderRadius: 7,
         padding: 9,
     },

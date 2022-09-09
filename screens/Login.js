@@ -92,7 +92,7 @@ const Login = ({ navigation }) => {
     };
 
     return (
-        <LinearGradient colors={["#1A91DA", "white"]} style={styles.container}>
+        <LinearGradient colors={["teal", "white"]} style={styles.container}>
             <View style={styles.logo}>
                 <MaterialIcons name="person-search" size={80} color="white" />
             </View>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     btnContainer: {
-        backgroundColor: "turquoise",
+        backgroundColor: "lightblue",
         borderRadius: 7,
         padding: 9,
     },

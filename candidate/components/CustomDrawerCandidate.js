@@ -2,8 +2,16 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { Drawer } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CustomDrawerCandidate = (props) => {
+const CustomDrawerCandidate = ({ props, navigation }) => {
+    const disconect = async () => {
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("role");
+
+        navigation.replace("Login");
+    };
+
     return (
         <View style={styles.container}>
             <DrawerContentScrollView {...props}>
@@ -35,7 +43,7 @@ const CustomDrawerCandidate = (props) => {
                             color={color}
                         />
                     )}
-                    onPress={() => alert("Deco")}
+                    onPress={disconect}
                 />
             </Drawer.Section>
         </View>

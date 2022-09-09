@@ -16,9 +16,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const RegisterCandidate = ({ route, navigation }) => {
+    const [mail, setMail] = useState("");
+    const [password, setPassword] = useState("");
     const [lastName, setLastName] = useState("");
     const [firstName, setFirsttName] = useState("");
-    const [email, setEmail] = useState(route.params.user.email);
+    const [email, setEmail] = useState(mail);
     const [profilImg, setProfilImg] = useState(
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
@@ -34,51 +36,121 @@ const RegisterCandidate = ({ route, navigation }) => {
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
 
-    const idUser = route.params.user.uid.toString();
-
-    const storageRef = ref(storage, "profilImg/" + idUser);
+    const storageRef = ref(storage, "profilImg/" + mail);
 
     const handleSubmit = async () => {
-        if (
-            lastName.length > 0 &&
-            firstName.length > 0 &&
-            email.length > 0 &&
-            dateOfBirth.length > 0 &&
-            placeOfBirth.length > 0 &&
-            nationality.length > 0 &&
-            adress.length > 0 &&
-            postalCode.length > 0 &&
-            lastExperiencepro.length > 0 &&
-            lastDiplomaObtained.length > 0 &&
-            hobbies.length > 0 &&
-            cv.length > 0 &&
-            profilImg.length > 0
-        ) {
+        try {
+            console.log(mail);
+            let isVerified = true;
+
+            if (
+                !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(mail) ||
+                mail.length < 7
+            ) {
+                isVerified = false;
+                console.log("mail");
+                alert("Veuillez entrer un email valide");
+            }
+            if (password.length < 6) {
+                isVerified = false;
+                alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+            if (firstName.length < 2 || !/^[aA-zZ]+$/.test(firstName)) {
+                isVerified = false;
+                alert("Veuillez entrer un prenom avec min 2 caractères");
+            }
+            if (lastName.length < 2 || !/^[aA-zZ]+$/.test(lastName)) {
+                isVerified = false;
+                alert("Veuillez entrer un nom avec min 2 caractères");
+            }
+            if (adress.length < 5) {
+                isVerified = false;
+                alert("Veuillez entrer une adresse avec min 5 caractères");
+            }
+            if (
+                postalCode.length !== 4 ||
+                !/^[1-9]{1}[0-9]{3}$/.test(postalCode)
+            ) {
+                isVerified = false;
+                alert("Veuillez entrer un code postal valide");
+            }
+            if (profilImg.length < 5) {
+                isVerified = false;
+                alert("Veuillez entrer une adresse avec min 5 caractères");
+            }
+            if (nationality.length < 4 || !/^[aA-zZ]+$/.test(nationality)) {
+                isVerified = false;
+                alert(
+                    "Veuillez entrer votre nationalité avec min 4 caractères"
+                );
+            }
+            if (
+                dateOfBirth.length !== 10 ||
+                !/^[0-9]{1,2}[/]{1}[0-9]{1,2}[/]{1}[0-9]{4}$/.test(dateOfBirth)
+            ) {
+                isVerified = false;
+                alert("Veuillez entrer une date de naissance valide");
+            }
+            if (lastDiplomaObtained.length < 4) {
+                isVerified = false;
+                alert(
+                    "Veuillez entrer votre dernier diplome avec min 4 caractères"
+                );
+            }
+            if (lastExperiencepro.length < 4) {
+                isVerified = false;
+                alert(
+                    "Veuillez entrer votre derniere experience pro avec  min 4 caractères"
+                );
+            }
+            if (hobbies.length < 4) {
+                isVerified = false;
+                alert("Veuillez entrer vos hobbys avec  min 4 caractères");
+            }
+            if (cv.length < 4) {
+                isVerified = false;
+                alert("Veuillez entrer vos hobbys avec  min 4 caractères");
+            }
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
-            } else {
-                console.log(urlProfilImage);
-                await setDoc(doc(db, "infoCandidate", idUser), {
-                    userId: idUser,
-                    lastName: lastName,
+            }
+            if (isVerified) {
+                const cand = {
+                    mail: mail,
+                    password: password,
                     firstName: firstName,
+                    lastName: lastName,
                     email: email,
-                    dateOfBirth: dateOfBirth,
-                    placeOfBirth: placeOfBirth,
+                    profilImg: urlProfilImage,
                     nationality: nationality,
                     adress: adress,
                     postalCode: postalCode,
-                    lastExperiencepro: lastExperiencepro,
+                    dateOfBirth: dateOfBirth,
                     lastDiplomaObtained: lastDiplomaObtained,
+                    lastExperiencepro: lastExperiencepro,
                     hobbies: hobbies,
                     cv: cv,
-                    profilImg: urlProfilImage,
-                    role: "candidate",
-                });
-                navigation.replace("HomeCandidate");
+                };
+
+                const response = await fetch(
+                    "http://192.168.0.119:3000/registerLogin/candidate",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(cand),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                if (response.ok) {
+                    navigation.replace("Login");
+                } else {
+                    const error = await response.json();
+                    console.log(error);
+                }
             }
-        } else {
-            alert("Veuillez remplir tous les champs !");
+        } catch (error) {
+            alert(error.message);
         }
     };
 
@@ -114,9 +186,25 @@ const RegisterCandidate = ({ route, navigation }) => {
     };
 
     return (
-        <LinearGradient colors={["#1A91DA", "white"]} style={styles.container}>
+        <LinearGradient colors={["teal", "white"]} style={styles.container}>
             <ScrollView>
                 <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Log's</Text>
+
+                    <Text style={styles.text}>Votre email</Text>
+                    <TextInput
+                        placeholder="Votre email"
+                        style={styles.input}
+                        keyboardType="email-address"
+                        onChangeText={(text) => setMail(text)}
+                    />
+
+                    <TextInput
+                        placeholder="Votre Mot De Passe"
+                        style={styles.input}
+                        onChangeText={(text) => setPassword(text)}
+                    />
+
                     <Text style={styles.text}>Informations</Text>
 
                     <TextInput
@@ -152,7 +240,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                     </View>
 
                     <TextInput
-                        placeholder="Votre date de naissance"
+                        placeholder="Votre date de naissance (01/06/2001)"
                         style={styles.input}
                         onChangeText={(text) => setDateOfBirth(text)}
                     />
@@ -258,7 +346,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     btnContainer: {
-        backgroundColor: "turquoise",
+        backgroundColor: "lightblue",
         borderRadius: 7,
         padding: 9,
     },
