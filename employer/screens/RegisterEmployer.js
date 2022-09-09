@@ -17,16 +17,16 @@ import { db, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const RegisterEmployer = ({ route, navigation }) => {
+    const [mail, setMail] = useState("");
+    const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(mail);
     const [profilImg, setProfilImg] = useState(
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
-    const [tva, setTva] = useState("");
     const [adress, setAdress] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const [phone, setPhone] = useState("");
-    const [fax, setFax] = useState("");
     const [website, setWebsite] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
@@ -34,38 +34,86 @@ const RegisterEmployer = ({ route, navigation }) => {
     const storageRef = ref(storage, "profilImg/" + email);
 
     const handleSubmit = async () => {
-        if (
-            name.length > 0 &&
-            email.length > 0 &&
-            profilImg.length > 0 &&
-            tva.length > 0 &&
-            adress.length > 0 &&
-            postalCode.length > 0 &&
-            phone.length > 0 &&
-            fax.length > 0 &&
-            website.length > 0
-        ) {
+        try {
+            let isVerified = true;
+
+            if (
+                !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(mail) ||
+                mail.length < 7
+            ) {
+                isVerified = false;
+                console.log("mail");
+                alert("Veuillez entrer un email valide");
+            }
+            if (password.length < 6) {
+                isVerified = false;
+                alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+
+            if (name.length < 2) {
+                isVerified = false;
+                alert("Veuillez entrer un nom avec min 2 caractères");
+            }
+            if (adress.length < 5) {
+                isVerified = false;
+                alert("Veuillez entrer une adresse avec min 5 caractères");
+            }
+            if (postalCode.length != 4) {
+                isVerified = false;
+                alert("Veuillez entrer un code postal valide");
+            }
+            if (!/^[0-9]{9,13}$/.test(phone) || phone.length == 11) {
+                isVerified = false;
+                alert("Veuillez entrer un numero de telephone valide");
+            }
+            if (profilImg.length < 5) {
+                isVerified = false;
+                alert("Veuillez entrer une adresse avec min 5 caractères");
+            }
+            if (
+                website.length < 9 ||
+                !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+                    website
+                )
+            ) {
+                isVerified = false;
+                alert("Veuillez entrer une adresse avec min 5 caractères");
+            }
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
-            } else {
-                await setDoc(doc(db, "infoEmployer", email), {
-                    userId: idUser,
-                    role: "employer",
+            }
+            if (isVerified) {
+                const emp = {
+                    mail: mail,
+                    password: password,
                     name: name,
                     email: email,
-                    profilImg: urlProfilImage,
-                    tva: tva,
                     adress: adress,
                     postalCode: postalCode,
                     phone: phone,
-                    fax: fax,
+                    profilImg: urlProfilImage,
                     website: website,
-                });
+                };
 
-                navigation.replace("HomeEmployer");
+                const response = await fetch(
+                    "http://192.168.0.119:3000/registerLogin/employer",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(emp),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                if (response.ok) {
+                    navigation.replace("Login");
+                } else {
+                    const error = await response.json();
+                    console.log(error);
+                }
             }
-        } else {
-            alert("Veuillez remplir tous les champs !");
+        } catch (error) {
+            alert(error.message);
         }
     };
 
@@ -110,13 +158,14 @@ const RegisterEmployer = ({ route, navigation }) => {
                     <TextInput
                         placeholder="Votre email"
                         style={styles.input}
-                        onChangeText={(text) => setLastName(text)}
+                        keyboardType="email-address"
+                        onChangeText={(text) => setMail(text)}
                     />
 
                     <TextInput
                         placeholder="Votre Mot De Passe"
                         style={styles.input}
-                        onChangeText={(text) => setFirsttName(text)}
+                        onChangeText={(text) => setPassword(text)}
                     />
                     <Text style={styles.text}>Informations société</Text>
 

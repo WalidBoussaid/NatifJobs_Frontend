@@ -40,7 +40,6 @@ const RegisterCandidate = ({ route, navigation }) => {
 
     const handleSubmit = async () => {
         try {
-            console.log(mail);
             let isVerified = true;
 
             if (
