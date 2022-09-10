@@ -166,6 +166,33 @@ const OfferDetails = ({ route, navigation }) => {
         }
     };
 
+    const handleSubmitRemove = async () => {
+        const tok = await AsyncStorage.getItem("token");
+        try {
+            const response = await fetch(
+                `http://192.168.0.119:3000/offer/deleteOffer/${id}`,
+                {
+                    method: "DELETE",
+                    body: JSON.stringify(offer),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+
+            if (response.ok) {
+                navigation.replace("HomeEmployer");
+            } else {
+                const error = await response.json();
+                alert(error);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -229,7 +256,7 @@ const OfferDetails = ({ route, navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.touchable}
-                            //onPress={handleSubmit}
+                            onPress={handleSubmitRemove}
                         >
                             <View style={styles.btnContainerRemove}>
                                 <Text style={styles.btnText}>
