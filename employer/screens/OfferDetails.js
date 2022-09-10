@@ -10,15 +10,45 @@ import React, { useEffect, useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AddOfferEmployer = ({ navigation }) => {
+const OfferDetails = ({ route, navigation }) => {
     const [title, setTitle] = useState("");
     const [selectedCat, setSelectedCat] = useState("");
     const [selectedType, setSelectedType] = useState("");
     const [desc, setDesc] = useState("");
     const [category, setCategory] = useState([]);
     const [typeOffer, setTypeOffer] = useState([]);
+    const [offer, setOffer] = useState([]);
+    const [offerCat, setOfferCat] = useState("");
+    const [offerType, setOfferType] = useState("");
+
+    const { id } = route.params; // id de l'offre
 
     useEffect(() => {
+        const fetchOfferSelected = async () => {
+            const tok = await AsyncStorage.getItem("token");
+            try {
+                const response = await fetch(
+                    `http://192.168.0.119:3000/offer/myOffer/${id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setOffer(result);
+                    setOfferCat(result.categoryJob);
+                    setOfferType(result.typeOffer);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
         const fetchCategoryJob = async () => {
             try {
                 const response = await fetch(
@@ -60,16 +90,16 @@ const AddOfferEmployer = ({ navigation }) => {
                 alert(error.message);
             }
         };
-
+        fetchOfferSelected();
         fetchCategoryJob();
         fetchTypeOffer();
+        console.log(offerCat);
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmitUpdate = async () => {
         try {
             let isVerified = true;
             const tok = await AsyncStorage.getItem("token"); //recupère le token
-            console.log(tok);
 
             if (tok == "" || tok == null) {
                 isVerified = false;
@@ -83,24 +113,36 @@ const AddOfferEmployer = ({ navigation }) => {
                 isVerified = false;
                 alert("Le type d'offre n'esxiste pas !");
             }
+            if (title == "") {
+                setTitle(offer.title);
+            }
             if (title.length < 4) {
                 isVerified = false;
                 alert("Titre pas confomre (min 4 caractères)!");
+            }
+            if (desc == "") {
+                setDesc(offer.description);
             }
             if (desc.length < 10) {
                 isVerified = false;
                 alert("Description pas confomre (min 10 caractères)!");
             }
+            if (selectedCat == "") {
+                setSelectedCat(offerCat);
+            }
+            if (selectedType == "") {
+                setSelectedType(offerType);
+            }
             if (isVerified) {
                 const offer = {
                     title: title,
                     description: desc,
-                    categoryOffer: selectedCat.id,
-                    typeOffer: selectedType.id,
+                    categoryId: selectedCat.id,
+                    typeOfferId: selectedType.id,
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/offer/addOffer",
+                    `http://192.168.0.119:3000/offer/updateMyOffer/${id}`,
                     {
                         method: "POST",
                         body: JSON.stringify(offer),
@@ -128,18 +170,18 @@ const AddOfferEmployer = ({ navigation }) => {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.text}>Informations de l'offre</Text>
+                    <Text style={styles.text}>Modifier l'offre</Text>
 
                     <Text style={styles.sousText}>Titre</Text>
                     <TextInput
-                        placeholder="Titre"
+                        defaultValue={offer.title}
                         style={styles.input}
                         onChangeText={(text) => setTitle(text)}
                     />
 
                     <Text style={styles.sousText}>Description</Text>
                     <TextInput
-                        placeholder="Description"
+                        defaultValue={offer.description}
                         style={styles.input}
                         multiline={true}
                         onChangeText={(text) => setDesc(text)}
@@ -155,7 +197,7 @@ const AddOfferEmployer = ({ navigation }) => {
                             return item.name;
                         }}
                         buttonStyle={{ borderRadius: 25, width: 290 }}
-                        defaultButtonText="Choisissez une catégorie"
+                        defaultButtonText={offerCat.name}
                         onSelect={(selectedItem) => {
                             setSelectedCat(selectedItem);
                         }}
@@ -171,20 +213,31 @@ const AddOfferEmployer = ({ navigation }) => {
                             return item.name;
                         }}
                         buttonStyle={{ borderRadius: 25, width: 290 }}
-                        defaultButtonText="Choisissez un type d'offre"
+                        defaultButtonText={offerType.name}
                         onSelect={(selectedItem) => {
                             setSelectedType(selectedItem);
                         }}
                     />
-
-                    <TouchableOpacity
-                        style={styles.touchable}
-                        onPress={handleSubmit}
-                    >
-                        <View style={styles.btnContainer}>
-                            <Text style={styles.btnText}>Valider</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.touchable}
+                            onPress={handleSubmitUpdate}
+                        >
+                            <View style={styles.btnContainer}>
+                                <Text style={styles.btnText}>Enrengistrer</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.touchable}
+                            //onPress={handleSubmit}
+                        >
+                            <View style={styles.btnContainerRemove}>
+                                <Text style={styles.btnText}>
+                                    Suprimer l'offre
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -223,6 +276,11 @@ const styles = StyleSheet.create({
     touchable: {
         marginVertical: 9,
     },
+    btnContainerRemove: {
+        backgroundColor: "lightcoral",
+        borderRadius: 7,
+        padding: 9,
+    },
     btnContainer: {
         backgroundColor: "turquoise",
         borderRadius: 7,
@@ -235,4 +293,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddOfferEmployer;
+export default OfferDetails;

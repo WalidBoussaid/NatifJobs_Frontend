@@ -5,6 +5,7 @@ import ProfilEmployer from "../screens/ProfilEmployer";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import AddOfferEmployer from "../screens/AddOfferEmployer";
+import OfferDetails from "../screens/OfferDetails";
 
 const StackNav = createStackNavigator();
 
@@ -45,6 +46,11 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 name="AddOfferEmployer"
                 component={AddOfferEmployer}
                 options={{ title: "Ajouter une offre" }}
+            />
+            <StackNav.Screen
+                name="OfferDetails"
+                component={OfferDetails}
+                options={{ title: "Detail de l'offre" }}
             />
         </StackNav.Navigator>
     );

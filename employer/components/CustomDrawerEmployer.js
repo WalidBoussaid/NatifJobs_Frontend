@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawerEmployer = ({ props, navigation }) => {
     const disconect = async () => {
+        // suprime du asyncStorage le token et le role et redirige sur la page login
         await AsyncStorage.removeItem("token");
         await AsyncStorage.removeItem("role");
 
@@ -26,7 +27,7 @@ const CustomDrawerEmployer = ({ props, navigation }) => {
                                 />
                             )}
                             onPress={() =>
-                                props.navigation.navigate("ProfilEmployer")
+                                navigation.navigate("ProfilEmployer")
                             }
                         />
                     </Drawer.Section>
