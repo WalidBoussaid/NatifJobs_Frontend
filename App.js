@@ -7,10 +7,15 @@ import RegisterCandidate from "./candidate/screens/RegisterCandidate";
 import RegisterEmployer from "./employer/screens/RegisterEmployer";
 import DrawerNavCandidate from "./candidate/routes/DrawerNavCandidate";
 import DrawerNavEmployer from "./employer/routes/DrawerNavEmployer";
+import { LogBox } from "react-native";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+    LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+    LogBox.ignoreLogs([
+        "Warning: AsyncStorage has been extracted from react-native core and will be removed in a future release.",
+    ]);
     return (
         <NavigationContainer>
             <Stack.Navigator
