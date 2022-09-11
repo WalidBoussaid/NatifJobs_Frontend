@@ -17,7 +17,7 @@ const HomeEmployer = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
         const decoded = jwt_decode(tok); // decode le token
         setUserId(decoded.userId); // set le userId qui se trouve dans le token pour l'envoyer à setUserId
-
+        //console.log(userId);
         const log = {
             employerId: userId,
         };

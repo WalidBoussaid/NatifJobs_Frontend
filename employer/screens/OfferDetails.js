@@ -12,14 +12,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OfferDetails = ({ route, navigation }) => {
     const [title, setTitle] = useState("");
-    const [selectedCat, setSelectedCat] = useState("");
-    const [selectedType, setSelectedType] = useState("");
     const [desc, setDesc] = useState("");
+    const [selectedCat, setSelectedCat] = useState([]);
+    const [selectedType, setSelectedType] = useState([]);
     const [category, setCategory] = useState([]);
     const [typeOffer, setTypeOffer] = useState([]);
     const [offer, setOffer] = useState([]);
-    const [offerCat, setOfferCat] = useState("");
-    const [offerType, setOfferType] = useState("");
 
     const { id } = route.params; // id de l'offre
 
@@ -41,8 +39,10 @@ const OfferDetails = ({ route, navigation }) => {
                 if (response.ok) {
                     const result = await response.json();
                     setOffer(result);
-                    setOfferCat(result.categoryJob);
-                    setOfferType(result.typeOffer);
+                    setDesc(result.description);
+                    setTitle(result.title);
+                    setSelectedCat(result.categoryJob);
+                    setSelectedType(result.typeOffer);
                 }
             } catch (error) {
                 alert(error.message);
@@ -93,7 +93,7 @@ const OfferDetails = ({ route, navigation }) => {
         fetchOfferSelected();
         fetchCategoryJob();
         fetchTypeOffer();
-        console.log(offerCat);
+        //console.log(offerCat);
     }, []);
 
     const handleSubmitUpdate = async () => {
@@ -113,26 +113,15 @@ const OfferDetails = ({ route, navigation }) => {
                 isVerified = false;
                 alert("Le type d'offre n'esxiste pas !");
             }
-            if (title == "") {
-                setTitle(offer.title);
-            }
             if (title.length < 4) {
                 isVerified = false;
                 alert("Titre pas confomre (min 4 caractères)!");
-            }
-            if (desc == "") {
-                setDesc(offer.description);
             }
             if (desc.length < 10) {
                 isVerified = false;
                 alert("Description pas confomre (min 10 caractères)!");
             }
-            if (selectedCat == "") {
-                setSelectedCat(offerCat);
-            }
-            if (selectedType == "") {
-                setSelectedType(offerType);
-            }
+
             if (isVerified) {
                 const offer = {
                     title: title,
@@ -201,14 +190,14 @@ const OfferDetails = ({ route, navigation }) => {
 
                     <Text style={styles.sousText}>Titre</Text>
                     <TextInput
-                        defaultValue={offer.title}
+                        value={title}
                         style={styles.input}
                         onChangeText={(text) => setTitle(text)}
                     />
 
                     <Text style={styles.sousText}>Description</Text>
                     <TextInput
-                        defaultValue={offer.description}
+                        value={desc}
                         style={styles.input}
                         multiline={true}
                         onChangeText={(text) => setDesc(text)}
@@ -224,7 +213,7 @@ const OfferDetails = ({ route, navigation }) => {
                             return item.name;
                         }}
                         buttonStyle={{ borderRadius: 25, width: 290 }}
-                        defaultButtonText={offerCat.name}
+                        defaultButtonText={selectedCat.name}
                         onSelect={(selectedItem) => {
                             setSelectedCat(selectedItem);
                         }}
@@ -240,7 +229,7 @@ const OfferDetails = ({ route, navigation }) => {
                             return item.name;
                         }}
                         buttonStyle={{ borderRadius: 25, width: 290 }}
-                        defaultButtonText={offerType.name}
+                        defaultButtonText={selectedType.name}
                         onSelect={(selectedItem) => {
                             setSelectedType(selectedItem);
                         }}
