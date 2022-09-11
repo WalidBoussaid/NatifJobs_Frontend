@@ -66,7 +66,7 @@ const HomeCandidate = () => {
                                 <View style={styles.detailContainer}>
                                     <View style={styles.catContainer}>
                                         <MaterialIcons
-                                            name="card-membership"
+                                            name="work-outline"
                                             size={24}
                                             color="black"
                                         />
@@ -81,7 +81,7 @@ const HomeCandidate = () => {
                                             color="black"
                                         />
                                         <Text style={styles.detail}>
-                                            {item.employer.postalCode}
+                                            {item.city.name}
                                         </Text>
                                     </View>
                                 </View>

@@ -14,6 +14,7 @@ const AddOfferEmployer = ({ navigation }) => {
     const [title, setTitle] = useState("");
     const [selectedCat, setSelectedCat] = useState("");
     const [selectedType, setSelectedType] = useState("");
+    const [selectedCity, setSelectedCity] = useState("");
     const [desc, setDesc] = useState("");
     const [category, setCategory] = useState([]);
     const [typeOffer, setTypeOffer] = useState([]);
@@ -124,6 +125,7 @@ const AddOfferEmployer = ({ navigation }) => {
                     description: desc,
                     categoryOffer: selectedCat.id,
                     typeOffer: selectedType.id,
+                    cityId: selectedCity.id,
                 };
 
                 const response = await fetch(
@@ -200,7 +202,7 @@ const AddOfferEmployer = ({ navigation }) => {
                         buttonStyle={{ borderRadius: 25, width: 290 }}
                         defaultButtonText="Choisissez une ville"
                         onSelect={(selectedItem) => {
-                            setSelectedCat(selectedItem);
+                            setSelectedCity(selectedItem);
                         }}
                     />
 

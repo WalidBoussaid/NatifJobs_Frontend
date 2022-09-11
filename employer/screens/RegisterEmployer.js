@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Alert,
     Image,
@@ -15,13 +15,13 @@ import * as ImagePicker from "expo-image-picker";
 import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import SelectDropdown from "react-native-select-dropdown";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState(mail);
-    const [city, setCity] = useState("");
     const [profilImg, setProfilImg] = useState(
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
@@ -31,8 +31,35 @@ const RegisterEmployer = ({ route, navigation }) => {
     const [website, setWebsite] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
+    const [city, setCity] = useState([]);
+    const [selectedCity, setSelectedCity] = useState([]);
 
     const storageRef = ref(storage, "profilImg/" + email);
+
+    const fetchCity = async () => {
+        try {
+            const response = await fetch(
+                "http://192.168.0.119:3000/city/allCity",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const result = await response.json();
+                setCity(result);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchCity();
+    }, []);
 
     const handleSubmit = async () => {
         try {
@@ -55,9 +82,9 @@ const RegisterEmployer = ({ route, navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un nom avec min 2 caractères");
             }
-            if (town.length < 4) {
+            if (city == null || city == "") {
                 isVerified = false;
-                alert("Veuillez entrer une ville avec min 4 caractères");
+                alert("La ville n'existe pas !");
             }
             if (adress.length < 5) {
                 isVerified = false;
@@ -93,7 +120,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     password: password,
                     name: name,
                     email: email,
-                    city: city,
+                    cityId: selectedCity.id,
                     adress: adress,
                     postalCode: postalCode,
                     phone: phone,
@@ -180,10 +207,21 @@ const RegisterEmployer = ({ route, navigation }) => {
                         style={styles.input}
                         onChangeText={(text) => setName(text)}
                     />
-                    <TextInput
-                        placeholder="Ville"
-                        style={styles.input}
-                        onChangeText={(text) => setCity(text)}
+
+                    <Text style={styles.sousText}>Ville</Text>
+                    <SelectDropdown
+                        data={city}
+                        rowTextForSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonTextAfterSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonStyle={{ borderRadius: 25, width: 290 }}
+                        defaultButtonText="Choisissez une ville"
+                        onSelect={(selectedItem) => {
+                            setSelectedCity(selectedItem);
+                        }}
                     />
 
                     <View style={styles.photoContainer}>
@@ -322,6 +360,11 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         marginRight: 10,
+    },
+    sousText: {
+        color: "white",
+        fontSize: 18,
+        textAlign: "center",
     },
 });
 

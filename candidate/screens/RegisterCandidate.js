@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
     ScrollView,
@@ -14,6 +14,7 @@ import Checkbox from "expo-checkbox";
 import { db, storage } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import SelectDropdown from "react-native-select-dropdown";
 
 const RegisterCandidate = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
@@ -35,8 +36,35 @@ const RegisterCandidate = ({ route, navigation }) => {
     const [cv, setCv] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
+    const [city, setCity] = useState([]);
+    const [selectedCity, setSelectedCity] = useState([]);
 
     const storageRef = ref(storage, "profilImg/" + mail);
+
+    const fetchCity = async () => {
+        try {
+            const response = await fetch(
+                "http://192.168.0.119:3000/city/allCity",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const result = await response.json();
+                setCity(result);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchCity();
+    }, []);
 
     const handleSubmit = async () => {
         try {
@@ -102,6 +130,10 @@ const RegisterCandidate = ({ route, navigation }) => {
                     "Veuillez entrer votre derniere experience pro avec  min 4 caractères"
                 );
             }
+            if (city == null || city == "") {
+                isVerified = false;
+                alert("La ville n'existe pas !");
+            }
             if (hobbies.length < 4) {
                 isVerified = false;
                 alert("Veuillez entrer vos hobbys avec  min 4 caractères");
@@ -129,6 +161,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                     lastExperiencepro: lastExperiencepro,
                     hobbies: hobbies,
                     cv: cv,
+                    cityId: selectedCity.id,
                 };
 
                 const response = await fetch(
@@ -190,14 +223,14 @@ const RegisterCandidate = ({ route, navigation }) => {
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Log's</Text>
 
-                    <Text style={styles.text}>Votre email</Text>
+                    <Text style={styles.sousText}>Votre email</Text>
                     <TextInput
                         placeholder="Votre email"
                         style={styles.input}
                         keyboardType="email-address"
                         onChangeText={(text) => setMail(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Mot De Passe</Text>
                     <TextInput
                         placeholder="Votre Mot De Passe"
                         style={styles.input}
@@ -205,13 +238,13 @@ const RegisterCandidate = ({ route, navigation }) => {
                     />
 
                     <Text style={styles.text}>Informations</Text>
-
+                    <Text style={styles.sousText}>Votre Nom</Text>
                     <TextInput
                         placeholder="Votre Nom"
                         style={styles.input}
                         onChangeText={(text) => setLastName(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Prénom</Text>
                     <TextInput
                         placeholder="Votre Prénom"
                         style={styles.input}
@@ -238,55 +271,75 @@ const RegisterCandidate = ({ route, navigation }) => {
                         </View>
                     </View>
 
+                    <Text style={styles.sousText}>Ville</Text>
+                    <SelectDropdown
+                        data={city}
+                        rowTextForSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonTextAfterSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonStyle={{ borderRadius: 25, width: 290 }}
+                        defaultButtonText="Choisissez une ville"
+                        onSelect={(selectedItem) => {
+                            setSelectedCity(selectedItem);
+                        }}
+                    />
+                    <Text style={styles.sousText}>Votre date de naissance</Text>
                     <TextInput
-                        placeholder="Votre date de naissance (01/06/2001)"
+                        placeholder="Format 01/06/2001"
                         style={styles.input}
                         onChangeText={(text) => setDateOfBirth(text)}
                     />
-
+                    <Text style={styles.sousText}>Lieu de naissance</Text>
                     <TextInput
                         placeholder="Lieu de naissance"
                         style={styles.input}
                         onChangeText={(text) => setPlaceOfBirth(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Nationalitée</Text>
                     <TextInput
                         placeholder="Votre Nationalitée"
                         style={styles.input}
                         onChangeText={(text) => setNationality(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Adresse</Text>
                     <TextInput
                         placeholder="Votre Adresse"
                         style={styles.input}
                         onChangeText={(text) => setAdress(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Code Postal</Text>
                     <TextInput
                         placeholder="Votre Code Postal"
                         keyboardType="numeric"
                         style={styles.input}
                         onChangeText={(text) => setPostalCode(text)}
                     />
-
+                    <Text style={styles.sousText}>
+                        Votre Derniere Experience Pro
+                    </Text>
                     <TextInput
                         placeholder="Votre Derniere Experience Pro"
                         style={styles.input}
                         onChangeText={(text) => setLastExperiencepro(text)}
                     />
-
+                    <Text style={styles.sousText}>
+                        Votre Dernier Diplome Obtenus
+                    </Text>
                     <TextInput
                         placeholder="Votre Dernier Diplome Obtenus"
                         style={styles.input}
                         onChangeText={(text) => setLastDiplomaObtained(text)}
                     />
-
+                    <Text style={styles.sousText}>Vos Hobby's</Text>
                     <TextInput
                         placeholder="Vos Hobby's"
                         style={styles.input}
                         onChangeText={(text) => setHobbies(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre CV</Text>
                     <TextInput
                         placeholder="Votre CV"
                         style={styles.input}
@@ -383,6 +436,11 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         marginRight: 10,
+    },
+    sousText: {
+        color: "white",
+        fontSize: 18,
+        textAlign: "center",
     },
 });
 

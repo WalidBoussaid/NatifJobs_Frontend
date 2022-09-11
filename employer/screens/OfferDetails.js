@@ -15,8 +15,10 @@ const OfferDetails = ({ route, navigation }) => {
     const [desc, setDesc] = useState("");
     const [selectedCat, setSelectedCat] = useState([]);
     const [selectedType, setSelectedType] = useState([]);
+    const [selectedCity, setSelectedCity] = useState([]);
     const [category, setCategory] = useState([]);
     const [typeOffer, setTypeOffer] = useState([]);
+    const [city, setCity] = useState([]);
     const [offer, setOffer] = useState([]);
 
     const { id } = route.params; // id de l'offre
@@ -43,6 +45,28 @@ const OfferDetails = ({ route, navigation }) => {
                     setTitle(result.title);
                     setSelectedCat(result.categoryJob);
                     setSelectedType(result.typeOffer);
+                    setSelectedCity(result.city);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        const fetchCity = async () => {
+            try {
+                const response = await fetch(
+                    "http://192.168.0.119:3000/city/allCity",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setCity(result);
                 }
             } catch (error) {
                 alert(error.message);
@@ -91,6 +115,7 @@ const OfferDetails = ({ route, navigation }) => {
             }
         };
         fetchOfferSelected();
+        fetchCity();
         fetchCategoryJob();
         fetchTypeOffer();
         //console.log(offerCat);
@@ -128,6 +153,7 @@ const OfferDetails = ({ route, navigation }) => {
                     description: desc,
                     categoryId: selectedCat.id,
                     typeOfferId: selectedType.id,
+                    cityId: selectedCity.id,
                 };
 
                 const response = await fetch(
@@ -216,6 +242,22 @@ const OfferDetails = ({ route, navigation }) => {
                         defaultButtonText={selectedCat.name}
                         onSelect={(selectedItem) => {
                             setSelectedCat(selectedItem);
+                        }}
+                    />
+
+                    <Text style={styles.sousText}>Ville</Text>
+                    <SelectDropdown
+                        data={city}
+                        rowTextForSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonTextAfterSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonStyle={{ borderRadius: 25, width: 290 }}
+                        defaultButtonText={selectedCity.name}
+                        onSelect={(selectedItem) => {
+                            setSelectedCity(selectedItem);
                         }}
                     />
 
