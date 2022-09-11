@@ -1,9 +1,8 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import BottomTabNavCandidate from "./BottomTabNavCandidate";
 import { MaterialIcons } from "@expo/vector-icons";
-import HomeCandidate from "../screens/HomeCandidate";
 import CustomDrawerCandidate from "../components/CustomDrawerCandidate";
+import StackNavScreenCandidate from "./StackNavCandidate";
 
 const Drawer = createDrawerNavigator();
 
@@ -14,7 +13,7 @@ const DrawerNavCandidate = () => {
         >
             <Drawer.Screen
                 name="HomeCandidate"
-                component={BottomTabNavCandidate}
+                component={StackNavScreenCandidate}
                 options={{
                     title: "Acceuil",
                     drawerIcon: () => (

@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const HomeCandidate = () => {
+const HomeCandidate = ({ navigation }) => {
     const [data, setData] = useState([]);
 
     const fetchData = async () => {
@@ -45,11 +45,11 @@ const HomeCandidate = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                    // onPress={() =>
-                    //     navigation.navigate("OfferDetails", {
-                    //         id: item.id,
-                    //     })
-                    // }
+                        onPress={() =>
+                            navigation.navigate("Details de l'offre", {
+                                id: item.id,
+                            })
+                        }
                     >
                         <View style={styles.offer}>
                             <View style={styles.offerContainer}>

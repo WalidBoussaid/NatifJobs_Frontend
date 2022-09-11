@@ -2,8 +2,10 @@ import React from "react";
 
 import HomeCandidate from "../screens/HomeCandidate";
 import ProfilCandidate from "../screens/ProfilCandidate";
+import MessageCandidate from "../screens/MessageCandidate";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import OfferDetails from "../screens/OfferDetails";
 
 const StackNav = createStackNavigator();
 
@@ -32,6 +34,14 @@ const StackNavScreenCandidate = ({ navigation }) => {
             <StackNav.Screen
                 name="ProfilCandidate"
                 component={ProfilCandidate}
+            />
+            <StackNav.Screen
+                name="MessageCandidate"
+                component={MessageCandidate}
+            />
+            <StackNav.Screen
+                name="Details de l'offre"
+                component={OfferDetails}
             />
         </StackNav.Navigator>
     );

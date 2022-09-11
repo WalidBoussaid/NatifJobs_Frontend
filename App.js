@@ -13,6 +13,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+    LogBox.ignoreLogs(["source.uri should not be an empty string"]);
     LogBox.ignoreLogs([
         "Warning: AsyncStorage has been extracted from react-native core and will be removed in a future release.",
     ]);

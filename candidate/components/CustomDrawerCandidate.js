@@ -18,16 +18,40 @@ const CustomDrawerCandidate = ({ props, navigation }) => {
                 <View style={styles.drawerContentContainer}>
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem
+                            label="Accueil"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="home"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("HomeCandidate")}
+                        />
+                        <DrawerItem
                             label="Profil"
                             icon={(color, size) => (
                                 <MaterialIcons
                                     name="face"
-                                    size={size}
+                                    size={20}
                                     color={color}
                                 />
                             )}
                             onPress={() =>
-                                props.navigation.navigate("ProfilCandidate")
+                                navigation.replace("ProfilCandidate")
+                            }
+                        />
+                        <DrawerItem
+                            label="Message"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="message"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() =>
+                                navigation.replace("MessageCandidate")
                             }
                         />
                     </Drawer.Section>
