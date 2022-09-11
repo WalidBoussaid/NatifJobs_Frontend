@@ -21,7 +21,7 @@ const RegisterEmployer = ({ route, navigation }) => {
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState(mail);
-    const [town, setTown] = useState("");
+    const [city, setCity] = useState("");
     const [profilImg, setProfilImg] = useState(
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
@@ -93,7 +93,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     password: password,
                     name: name,
                     email: email,
-                    town: town,
+                    city: city,
                     adress: adress,
                     postalCode: postalCode,
                     phone: phone,
@@ -183,7 +183,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     <TextInput
                         placeholder="Ville"
                         style={styles.input}
-                        onChangeText={(text) => setTown(text)}
+                        onChangeText={(text) => setCity(text)}
                     />
 
                     <View style={styles.photoContainer}>
