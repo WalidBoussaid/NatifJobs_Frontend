@@ -17,8 +17,30 @@ const AddOfferEmployer = ({ navigation }) => {
     const [desc, setDesc] = useState("");
     const [category, setCategory] = useState([]);
     const [typeOffer, setTypeOffer] = useState([]);
+    const [city, setCity] = useState([]);
 
     useEffect(() => {
+        const fetchCity = async () => {
+            try {
+                const response = await fetch(
+                    "http://192.168.0.119:3000/city/allCity",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setCity(result);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
         const fetchCategoryJob = async () => {
             try {
                 const response = await fetch(
@@ -61,6 +83,7 @@ const AddOfferEmployer = ({ navigation }) => {
             }
         };
 
+        fetchCity();
         fetchCategoryJob();
         fetchTypeOffer();
     }, []);
@@ -78,6 +101,10 @@ const AddOfferEmployer = ({ navigation }) => {
             if (category == null || category == "") {
                 isVerified = false;
                 alert("La categorie n'esxiste pas !");
+            }
+            if (city == null || city == "") {
+                isVerified = false;
+                alert("La ville n'esxiste pas !");
             }
             if (typeOffer == null || typeOffer == "") {
                 isVerified = false;
@@ -156,6 +183,22 @@ const AddOfferEmployer = ({ navigation }) => {
                         }}
                         buttonStyle={{ borderRadius: 25, width: 290 }}
                         defaultButtonText="Choisissez une catégorie"
+                        onSelect={(selectedItem) => {
+                            setSelectedCat(selectedItem);
+                        }}
+                    />
+
+                    <Text style={styles.sousText}>Ville</Text>
+                    <SelectDropdown
+                        data={city}
+                        rowTextForSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonTextAfterSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonStyle={{ borderRadius: 25, width: 290 }}
+                        defaultButtonText="Choisissez une ville"
                         onSelect={(selectedItem) => {
                             setSelectedCat(selectedItem);
                         }}
