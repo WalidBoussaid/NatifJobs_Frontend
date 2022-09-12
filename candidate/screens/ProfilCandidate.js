@@ -351,159 +351,154 @@ const ProfilCandidate = ({ navigation }) => {
         }
     };
 
-        return (
-            <View style={styles.container}>
-                <ScrollView>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.text}>Modifier Log's</Text>
+    return (
+        <View style={styles.container}>
+            <ScrollView>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Modifier Log's</Text>
 
-                        <Text style={styles.sousText}>Votre email</Text>
-                        <TextInput
-                            defaultValue={mail}
-                            style={styles.input}
-                            keyboardType="email-address"
-                            onChangeText={(text) => setMail(text)}
-                        />
-                        <Text style={styles.sousText}>
-                            Votre Mot De Passe Actuel
-                        </Text>
-                        <TextInput
-                            placeholder="Votre Mot De Passe Actuel"
-                            style={styles.input}
-                            secureTextEntry
-                            onChangeText={(text) => setPassword(text)}
-                        />
-                        <Text style={styles.sousText}>
-                            Votre Nouveau Mot De Passe
-                        </Text>
-                        <TextInput
-                            placeholder="Remplir si changement de mdp"
-                            style={styles.input}
-                            secureTextEntry
-                            onChangeText={(text) => setNewPassword(text)}
-                        />
+                    <Text style={styles.sousText}>Votre email</Text>
+                    <TextInput
+                        defaultValue={mail}
+                        style={styles.input}
+                        keyboardType="email-address"
+                        onChangeText={(text) => setMail(text)}
+                    />
+                    <Text style={styles.sousText}>
+                        Votre Mot De Passe Actuel
+                    </Text>
+                    <TextInput
+                        placeholder="Votre Mot De Passe Actuel"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setPassword(text)}
+                    />
+                    <Text style={styles.sousText}>
+                        Votre Nouveau Mot De Passe
+                    </Text>
+                    <TextInput
+                        placeholder="Remplir si changement de mdp"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setNewPassword(text)}
+                    />
 
-                        <Text style={styles.text}>Modifier Informations</Text>
-                        <Text style={styles.sousText}>Votre Nom</Text>
-                        <TextInput
-                            defaultValue={lastName}
-                            style={styles.input}
-                            onChangeText={(text) => setLastName(text)}
-                        />
-                        <Text style={styles.sousText}>Votre Prénom</Text>
-                        <TextInput
-                            defaultValue={firstName}
-                            style={styles.input}
-                            onChangeText={(text) => setFirsttName(text)}
-                        />
+                    <Text style={styles.text}>Modifier Informations</Text>
+                    <Text style={styles.sousText}>Votre Nom</Text>
+                    <TextInput
+                        defaultValue={lastName}
+                        style={styles.input}
+                        onChangeText={(text) => setLastName(text)}
+                    />
+                    <Text style={styles.sousText}>Votre Prénom</Text>
+                    <TextInput
+                        defaultValue={firstName}
+                        style={styles.input}
+                        onChangeText={(text) => setFirsttName(text)}
+                    />
 
-                        <View style={styles.photoContainer}>
-                            <View style={styles.wrapper}>
-                                <Image
-                                    style={styles.photo}
-                                    source={{ uri: profilImg }}
-                                />
+                    <View style={styles.photoContainer}>
+                        <View style={styles.wrapper}>
+                            <Image
+                                style={styles.photo}
+                                source={{ uri: profilImg }}
+                            />
 
-                                <TouchableOpacity
-                                    style={styles.touchableImage}
-                                    onPress={pickImage}
-                                >
-                                    <View style={styles.btnContainerImage}>
-                                        <Text style={styles.btnTextImage}>
-                                            Sélectionner une photo
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            <TouchableOpacity
+                                style={styles.touchableImage}
+                                onPress={pickImage}
+                            >
+                                <View style={styles.btnContainerImage}>
+                                    <Text style={styles.btnTextImage}>
+                                        Sélectionner une photo
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-
-                        <Text style={styles.sousText}>Ville</Text>
-                        <SelectDropdown
-                            data={allCity}
-                            rowTextForSelection={(item, index) => {
-                                return item.name;
-                            }}
-                            buttonTextAfterSelection={(item, index) => {
-                                return item.name;
-                            }}
-                            buttonStyle={{ borderRadius: 25, width: 333 }}
-                            defaultButtonText={city.name}
-                            onSelect={(selectedItem) => {
-                                setSelectedCity(selectedItem);
-                            }}
-                        />
-                        <Text style={styles.sousText}>
-                            Votre date de naissance
-                        </Text>
-                        <TextInput
-                            defaultValue={candidate.dateOfBirth}
-                            style={styles.input}
-                            onChangeText={(text) => setDateOfBirth(text)}
-                        />
-
-                        <Text style={styles.sousText}>Votre Nationalitée</Text>
-                        <TextInput
-                            defaultValue={nationality}
-                            style={styles.input}
-                            onChangeText={(text) => setNationality(text)}
-                        />
-                        <Text style={styles.sousText}>Votre Adresse</Text>
-                        <TextInput
-                            defaultValue={adress}
-                            style={styles.input}
-                            onChangeText={(text) => setAdress(text)}
-                        />
-                        <Text style={styles.sousText}>Votre Code Postal</Text>
-                        <TextInput
-                            defaultValue={postalCode}
-                            keyboardType="numeric"
-                            style={styles.input}
-                            onChangeText={(text) => setPostalCode(text)}
-                        />
-                        <Text style={styles.sousText}>
-                            Votre Derniere Experience Pro
-                        </Text>
-                        <TextInput
-                            defaultValue={lastExperiencepro}
-                            style={styles.input}
-                            onChangeText={(text) => setLastExperiencepro(text)}
-                        />
-                        <Text style={styles.sousText}>
-                            Votre Dernier Diplome Obtenus
-                        </Text>
-                        <TextInput
-                            defaultValue={lastDiplomaObtained}
-                            style={styles.input}
-                            onChangeText={(text) =>
-                                setLastDiplomaObtained(text)
-                            }
-                        />
-                        <Text style={styles.sousText}>Vos Hobby's</Text>
-                        <TextInput
-                            defaultValue={hobbies}
-                            style={styles.input}
-                            onChangeText={(text) => setHobbies(text)}
-                        />
-                        <Text style={styles.sousText}>Votre CV</Text>
-                        <TextInput
-                            defaultValue={cv}
-                            style={styles.input}
-                            onChangeText={(text) => setCv(text)}
-                        />
-
-                        <TouchableOpacity
-                            style={styles.touchable}
-                            onPress={handleSubmit}
-                        >
-                            <View style={styles.btnContainer}>
-                                <Text style={styles.btnText}>Valider</Text>
-                            </View>
-                        </TouchableOpacity>
                     </View>
-                </ScrollView>
-            </View>
-        );
-    }
+
+                    <Text style={styles.sousText}>Ville</Text>
+                    <SelectDropdown
+                        data={allCity}
+                        rowTextForSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonTextAfterSelection={(item, index) => {
+                            return item.name;
+                        }}
+                        buttonStyle={{ borderRadius: 25, width: 333 }}
+                        defaultButtonText={city.name}
+                        onSelect={(selectedItem) => {
+                            setSelectedCity(selectedItem);
+                        }}
+                    />
+                    <Text style={styles.sousText}>Votre date de naissance</Text>
+                    <TextInput
+                        defaultValue={candidate.dateOfBirth}
+                        style={styles.input}
+                        onChangeText={(text) => setDateOfBirth(text)}
+                    />
+
+                    <Text style={styles.sousText}>Votre Nationalitée</Text>
+                    <TextInput
+                        defaultValue={nationality}
+                        style={styles.input}
+                        onChangeText={(text) => setNationality(text)}
+                    />
+                    <Text style={styles.sousText}>Votre Adresse</Text>
+                    <TextInput
+                        defaultValue={adress}
+                        style={styles.input}
+                        onChangeText={(text) => setAdress(text)}
+                    />
+                    <Text style={styles.sousText}>Votre Code Postal</Text>
+                    <TextInput
+                        defaultValue={postalCode}
+                        keyboardType="numeric"
+                        style={styles.input}
+                        onChangeText={(text) => setPostalCode(text)}
+                    />
+                    <Text style={styles.sousText}>
+                        Votre Derniere Experience Pro
+                    </Text>
+                    <TextInput
+                        defaultValue={lastExperiencepro}
+                        style={styles.input}
+                        onChangeText={(text) => setLastExperiencepro(text)}
+                    />
+                    <Text style={styles.sousText}>
+                        Votre Dernier Diplome Obtenus
+                    </Text>
+                    <TextInput
+                        defaultValue={lastDiplomaObtained}
+                        style={styles.input}
+                        onChangeText={(text) => setLastDiplomaObtained(text)}
+                    />
+                    <Text style={styles.sousText}>Vos Hobby's</Text>
+                    <TextInput
+                        defaultValue={hobbies}
+                        style={styles.input}
+                        onChangeText={(text) => setHobbies(text)}
+                    />
+                    <Text style={styles.sousText}>Votre CV</Text>
+                    <TextInput
+                        defaultValue={cv}
+                        style={styles.input}
+                        onChangeText={(text) => setCv(text)}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.touchable}
+                        onPress={handleSubmit}
+                    >
+                        <View style={styles.btnContainer}>
+                            <Text style={styles.btnText}>Valider</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
