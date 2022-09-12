@@ -28,7 +28,6 @@ const ProfilEmployer = ({ navigation }) => {
     const [postalCode, setPostalCode] = useState("");
     const [phone, setPhone] = useState("");
     const [website, setWebsite] = useState("");
-    const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
     const [city, setCity] = useState([]);
     const [selectedCity, setSelectedCity] = useState([]);
