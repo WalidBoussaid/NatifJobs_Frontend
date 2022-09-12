@@ -46,7 +46,7 @@ const HomeCandidate = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() =>
-                            navigation.navigate("Details de l'offre", {
+                            navigation.navigate("OfferDetails", {
                                 id: item.id,
                             })
                         }

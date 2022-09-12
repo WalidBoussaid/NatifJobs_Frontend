@@ -11,8 +11,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
-import { db, storage } from "../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
 
@@ -103,7 +102,7 @@ const RegisterCandidate = ({ route, navigation }) => {
             }
             if (profilImg.length < 5) {
                 isVerified = false;
-                alert("Veuillez entrer une adresse avec min 5 caractères");
+                alert("Veuillez entrer une photo avec min 5 caractères");
             }
             if (nationality.length < 4 || !/^[aA-zZ]+$/.test(nationality)) {
                 isVerified = false;
@@ -140,7 +139,7 @@ const RegisterCandidate = ({ route, navigation }) => {
             }
             if (cv.length < 4) {
                 isVerified = false;
-                alert("Veuillez entrer vos hobbys avec  min 4 caractères");
+                alert("Veuillez entrer un nom de cv avec min 4 caractères");
             }
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
@@ -292,12 +291,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                         style={styles.input}
                         onChangeText={(text) => setDateOfBirth(text)}
                     />
-                    <Text style={styles.sousText}>Lieu de naissance</Text>
-                    <TextInput
-                        placeholder="Lieu de naissance"
-                        style={styles.input}
-                        onChangeText={(text) => setPlaceOfBirth(text)}
-                    />
+
                     <Text style={styles.sousText}>Votre Nationalitée</Text>
                     <TextInput
                         placeholder="Votre Nationalitée"
