@@ -233,6 +233,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                     <TextInput
                         placeholder="Votre Mot De Passe"
                         style={styles.input}
+                        secureTextEntry
                         onChangeText={(text) => setPassword(text)}
                     />
 

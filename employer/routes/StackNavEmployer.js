@@ -2,6 +2,7 @@ import React from "react";
 
 import HomeEmployer from "../screens/HomeEmployer";
 import ProfilEmployer from "../screens/ProfilEmployer";
+import MessageEmployeur from "../screens/MessageEmployer";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import AddOfferEmployer from "../screens/AddOfferEmployer";
@@ -51,6 +52,11 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 name="OfferDetails"
                 component={OfferDetails}
                 options={{ title: "Detail de l'offre" }}
+            />
+            <StackNav.Screen
+                name="MessageEmployeur"
+                component={MessageEmployeur}
+                options={{ title: "Message" }}
             />
         </StackNav.Navigator>
     );

@@ -198,6 +198,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                     <TextInput
                         placeholder="Votre Mot De Passe"
                         style={styles.input}
+                        secureTextEntry
                         onChangeText={(text) => setPassword(text)}
                     />
                     <Text style={styles.text}>Informations société</Text>
