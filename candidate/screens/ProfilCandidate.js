@@ -100,11 +100,10 @@ const ProfilCandidate = ({ navigation }) => {
     };
 
     const fetchCandidate = async () => {
+        const tok = await AsyncStorage.getItem("token"); //recupère le token
+        const decoded = jwt_decode(tok); // decode le token
+        setUserId(decoded.userId);
         try {
-            const tok = await AsyncStorage.getItem("token"); //recupère le token
-            const decoded = jwt_decode(tok); // decode le token
-            setUserId(decoded.userId);
-
             const response = await fetch(
                 `http://192.168.0.119:3000/candidate/oneCandidate/${userId}`,
                 {
