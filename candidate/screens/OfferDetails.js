@@ -15,6 +15,8 @@ const OfferDetails = ({ route }) => {
     const [employerName, setEmployerName] = useState("");
     const [employerImg, setEmployerImg] = useState("");
     const [employer, setEmployer] = useState([]);
+    const [cat, setCat] = useState([]);
+    const [type, setType] = useState([]);
 
     const { id } = route.params; // id de l'offre
 
@@ -38,6 +40,8 @@ const OfferDetails = ({ route }) => {
                 setEmployerName(result.employer.name);
                 setEmployerImg(result.employer.profilImg);
                 setEmployer(result.employer);
+                setCat(result.categoryJob);
+                setType(result.typeOffer);
             }
         } catch (error) {
             alert(error.message);
@@ -67,14 +71,26 @@ const OfferDetails = ({ route }) => {
                     <Text style={styles.desc}>{offer.description}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
+                    <Text style={styles.titleDesc}>Type d'offre :</Text>
+                </View>
+                <View style={styles.descContainer}>
+                    <Text style={styles.desc}>{type.name}</Text>
+                </View>
+                <View style={styles.titleDescContainer}>
+                    <Text style={styles.titleDesc}>Categorie :</Text>
+                </View>
+                <View style={styles.descContainer}>
+                    <Text style={styles.desc}>{cat.name}</Text>
+                </View>
+                <View style={styles.titleDescContainer}>
                     <Text style={styles.titleDesc}>Info société :</Text>
                 </View>
-                <View style={styles.infos}>
-                    <Text>{employer.name}</Text>
-                    <Text>
+                <View style={styles.descContainer}>
+                    <Text style={styles.desc}>{employer.name}</Text>
+                    <Text style={styles.desc}>
                         {employer.adress} - {employer.postalCode}
                     </Text>
-                    <Text>{employer.website}</Text>
+                    <Text style={styles.desc}>{employer.website}</Text>
                 </View>
             </ScrollView>
             <View style={styles.btnContainer}>
@@ -123,9 +139,11 @@ const styles = StyleSheet.create({
     descContainer: {
         backgroundColor: "azure",
         borderRadius: 8,
+        marginHorizontal: 5,
     },
     desc: {
-        margin: 8,
+        marginHorizontal: 8,
+        marginVertical: 3,
     },
     btn: {},
     titleDesc: {
@@ -139,7 +157,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
     },
     infos: {
-        marginHorizontal: 5,
+        marginHorizontal: 8,
     },
 });
 

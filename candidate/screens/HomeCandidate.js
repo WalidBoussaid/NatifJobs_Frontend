@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const HomeCandidate = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -85,6 +86,17 @@ const HomeCandidate = ({ navigation }) => {
                                         </Text>
                                     </View>
                                 </View>
+                                <View style={styles.typeContainer}>
+                                    <FontAwesome5
+                                        name="file-contract"
+                                        size={24}
+                                        color="black"
+                                    />
+                                    <Text style={styles.detail}>
+                                        {" "}
+                                        {item.typeOffer.name}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -108,7 +120,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 20,
         width: 370,
-        height: 100,
+        height: 150,
     },
     offerContainer: {
         width: "100%",
@@ -123,11 +135,11 @@ const styles = StyleSheet.create({
     },
     nameContainer: {
         height: "30%",
-        marginBottom: 5,
     },
     name: {
         fontSize: 18,
         fontWeight: "bold",
+        marginHorizontal: 6,
     },
     detailContainer: {
         height: "30%",
@@ -143,6 +155,11 @@ const styles = StyleSheet.create({
     },
     catContainer: {
         flexDirection: "row",
+    },
+    typeContainer: {
+        flexDirection: "row",
+        marginBottom: 5,
+        marginHorizontal: 5,
     },
 });
 
