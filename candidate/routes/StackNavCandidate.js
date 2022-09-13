@@ -27,7 +27,7 @@ const StackNavScreenCandidate = ({ navigation }) => {
                 name="HomeCandidate"
                 component={HomeCandidate}
                 options={{
-                    title: "Accueil",
+                    title: "Annonce",
                 }}
             />
 
