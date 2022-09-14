@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import AddOfferEmployer from "../screens/AddOfferEmployer";
 import OfferDetails from "../screens/OfferDetails";
+import NotifEmployer from "../screens/NotifEmployer";
 
 const StackNav = createStackNavigator();
 
@@ -57,6 +58,11 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 name="MessageEmployeur"
                 component={MessageEmployeur}
                 options={{ title: "Message" }}
+            />
+            <StackNav.Screen
+                name="NotifEmployer"
+                component={NotifEmployer}
+                options={{ title: "Notification" }}
             />
         </StackNav.Navigator>
     );

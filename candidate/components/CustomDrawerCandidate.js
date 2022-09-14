@@ -67,6 +67,17 @@ const CustomDrawerCandidate = ({ props, navigation }) => {
                                 navigation.replace("HistoryCandidate")
                             }
                         />
+                        <DrawerItem
+                            label="Notification"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="natifications"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            //onPress={() => navigation.replace("")}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>

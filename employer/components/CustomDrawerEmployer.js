@@ -52,6 +52,17 @@ const CustomDrawerEmployer = ({ props, navigation }) => {
                                 navigation.replace("MessageEmployeur")
                             }
                         />
+                        <DrawerItem
+                            label="Notification"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="notifications"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("NotifEmployer")}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
