@@ -14,6 +14,7 @@ import Checkbox from "expo-checkbox";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RegisterCandidate = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
@@ -144,7 +145,7 @@ const RegisterCandidate = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             }
-            if (isVerified) {
+            if (isVerified && isChecked) {
                 const cand = {
                     mail: mail,
                     password: password,

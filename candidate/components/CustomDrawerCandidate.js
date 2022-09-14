@@ -54,6 +54,19 @@ const CustomDrawerCandidate = ({ props, navigation }) => {
                                 navigation.replace("MessageCandidate")
                             }
                         />
+                        <DrawerItem
+                            label="Historique"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="history"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() =>
+                                navigation.replace("HistoryCandidate")
+                            }
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>

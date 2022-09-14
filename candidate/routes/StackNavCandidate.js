@@ -6,6 +6,7 @@ import MessageCandidate from "../screens/MessageCandidate";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import OfferDetails from "../screens/OfferDetails";
+import HistoryCandidate from "../screens/HistoryCandidate";
 
 const StackNav = createStackNavigator();
 
@@ -47,6 +48,13 @@ const StackNavScreenCandidate = ({ navigation }) => {
                 component={OfferDetails}
                 options={{
                     title: "Détail de l'offre",
+                }}
+            />
+            <StackNav.Screen
+                name="HistoryCandidate"
+                component={HistoryCandidate}
+                options={{
+                    title: "Historique",
                 }}
             />
         </StackNav.Navigator>
