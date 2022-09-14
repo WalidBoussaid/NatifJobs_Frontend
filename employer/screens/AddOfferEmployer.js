@@ -23,12 +23,14 @@ const AddOfferEmployer = ({ navigation }) => {
     useEffect(() => {
         const fetchCity = async () => {
             try {
+                const tok = await AsyncStorage.getItem("token");
                 const response = await fetch(
                     "http://192.168.0.119:3000/city/allCity",
                     {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
                         },
                     }
                 );
@@ -44,12 +46,14 @@ const AddOfferEmployer = ({ navigation }) => {
 
         const fetchCategoryJob = async () => {
             try {
+                const tok = await AsyncStorage.getItem("token");
                 const response = await fetch(
                     "http://192.168.0.119:3000/category/allCategory",
                     {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
                         },
                     }
                 );
@@ -65,12 +69,15 @@ const AddOfferEmployer = ({ navigation }) => {
 
         const fetchTypeOffer = async () => {
             try {
+                const tok = await AsyncStorage.getItem("token");
                 const response = await fetch(
                     "http://192.168.0.119:3000/typeOffer/allTypeOffer",
+
                     {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
                         },
                     }
                 );
