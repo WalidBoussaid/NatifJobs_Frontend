@@ -23,9 +23,9 @@ const Login = ({ navigation }) => {
 
             if (token) {
                 if (role == "candidate") {
-                    navigation.navigate("HomeCandidate");
+                    navigation.replace("HomeCandidate");
                 } else if (role == "employer") {
-                    navigation.navigate("HomeEmployer");
+                    navigation.replace("HomeEmployer");
                 } else {
                     alert("admin");
                 }
