@@ -114,7 +114,7 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             }
-            if (isVerified) {
+            if (isVerified && isChecked == true) {
                 const emp = {
                     mail: mail,
                     password: password,
