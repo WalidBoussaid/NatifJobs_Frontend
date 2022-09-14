@@ -9,14 +9,16 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import jwt_decode from "jwt-decode";
 
-const OfferDetails = ({ route }) => {
+const OfferDetails = ({ route, navigation }) => {
     const [offer, setOffer] = useState([]);
     const [employerName, setEmployerName] = useState("");
     const [employerImg, setEmployerImg] = useState("");
     const [employer, setEmployer] = useState([]);
     const [cat, setCat] = useState([]);
     const [type, setType] = useState([]);
+    const [userId, setUserId] = useState("");
 
     const { id } = route.params; // id de l'offre
 
@@ -48,9 +50,85 @@ const OfferDetails = ({ route }) => {
         }
     };
 
+    const btnLike = async () => {
+        try {
+            const tok = await AsyncStorage.getItem("token");
+            const decoded = jwt_decode(tok);
+
+            setUserId(decoded.userId);
+            let like = true;
+            let dislike = false;
+
+            const history = {
+                userId: userId,
+                offerId: id,
+                like: like,
+                dislike: dislike,
+            };
+
+            const response = await fetch(
+                `http://192.168.0.119:3000/historyCandidate`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(history),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+            if (response.ok) {
+                navigation.replace("HomeCandidate");
+            } else {
+                const error = await response.json();
+                console.log(error);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    const btnDislike = async () => {
+        try {
+            const tok = await AsyncStorage.getItem("token");
+            const decoded = jwt_decode(tok);
+
+            setUserId(decoded.userId);
+
+            let like = false;
+            let dislike = true;
+
+            const historyDislike = {
+                userId: userId,
+                offerId: id,
+                like: like,
+                dislike: dislike,
+            };
+
+            const response = await fetch(
+                `http://192.168.0.119:3000/historyCandidate`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(historyDislike),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+            if (response.ok) {
+                navigation.replace("HomeCandidate");
+            } else {
+                const error = await response.json();
+                console.log(error);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     useEffect(() => {
         fetchOfferSelected();
-        console.log(offer);
     }, []);
 
     return (
@@ -94,10 +172,10 @@ const OfferDetails = ({ route }) => {
                 </View>
             </ScrollView>
             <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={btnLike}>
                     <AntDesign name="like1" size={50} color="green" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={btnDislike}>
                     <AntDesign name="dislike1" size={50} color="red" />
                 </TouchableOpacity>
             </View>
