@@ -9,6 +9,7 @@ import AddOfferEmployer from "../screens/AddOfferEmployer";
 import OfferDetails from "../screens/OfferDetails";
 import NotifEmployer from "../screens/NotifEmployer";
 import DetailsCandidate from "../screens/DetailsCandidate";
+import MsgDetailsEmployer from "../screens/MsgDetailsEmployer";
 
 const StackNav = createStackNavigator();
 
@@ -69,6 +70,11 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 name="DetailsCandidate"
                 component={DetailsCandidate}
                 options={{ title: "Profil du candidat" }}
+            />
+            <StackNav.Screen
+                name="MsgDetailsEmployer"
+                component={MsgDetailsEmployer}
+                options={{ title: "Message" }}
             />
         </StackNav.Navigator>
     );

@@ -8,11 +8,8 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const MessageEmployer = () => {
+const MessageEmployer = ({ navigation }) => {
     const [data, setData] = useState([]);
-    const [employer, setEmployer] = useState([]);
-    const [candidate, setCandidate] = useState([]);
-    const [offer, setOffer] = useState([]);
 
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
@@ -31,9 +28,6 @@ const MessageEmployer = () => {
         if (response.ok) {
             const result = await response.json();
             setData(result);
-            setEmployer(result.employer);
-            setCandidate(result.candidate);
-            setOffer(result.offer);
         } else {
             alert("Pas de message à afficher !");
         }
@@ -48,11 +42,9 @@ const MessageEmployer = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                    // onPress={() =>
-                    //     navigation.navigate("OfferDetails", {
-                    //         id: item.id,
-                    //     })
-                    // }
+                        onPress={() =>
+                            navigation.navigate("MsgDetailsEmployer")
+                        }
                     >
                         <View style={styles.offer}>
                             <View>
