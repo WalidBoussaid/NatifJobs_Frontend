@@ -12,6 +12,7 @@ const NotifEmployer = ({ navigation }) => {
     const [data, setData] = useState([]);
     let notifVisitedId = "";
     let candidateId = "";
+    let offerId = "";
 
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
@@ -30,6 +31,7 @@ const NotifEmployer = ({ navigation }) => {
         if (response.ok) {
             const result = await response.json();
             setData(result);
+
             //console.log(data[0].categoryJob.name);
         } else {
             alert("Pas de notif à afficher !");
@@ -61,6 +63,7 @@ const NotifEmployer = ({ navigation }) => {
             alert("Pas de notif à afficher !");
         }
         navigation.navigate("DetailsCandidate", {
+            idOffer: offerId,
             idCand: candidateId,
         });
     };
@@ -78,6 +81,7 @@ const NotifEmployer = ({ navigation }) => {
                         onPress={() => {
                             notifVisitedId = item.id;
                             candidateId = item.candidateId;
+                            offerId = item.offerId;
                             handleVisited();
                         }}
                     >

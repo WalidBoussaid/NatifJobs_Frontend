@@ -56,7 +56,7 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 options={{ title: "Detail de l'offre" }}
             />
             <StackNav.Screen
-                name="MessageEmployeur"
+                name="MessageEmployer"
                 component={MessageEmployeur}
                 options={{ title: "Message" }}
             />

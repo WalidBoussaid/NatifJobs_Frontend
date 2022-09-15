@@ -12,7 +12,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DetailsCandidate = ({ route, navigation }) => {
     const [data, setData] = useState([]);
+    const [city, setCity] = useState([]);
+    const [history, setHistory] = useState([]);
+
     const { idCand } = route.params;
+    const { idOffer } = route.params;
+
+    let like = false;
+    let dislike = false;
 
     const fetchCandidate = async () => {
         const tok = await AsyncStorage.getItem("token");
@@ -34,16 +41,116 @@ const DetailsCandidate = ({ route, navigation }) => {
             if (response.ok) {
                 const result = await response.json();
                 setData(result);
-                console.log(result);
+                setCity(result.city);
             } else {
                 const error = await response.json();
                 alert(error);
             }
         } catch (error) {}
     };
+
+    const fetchHistoryEmployer = async () => {
+        const tok = await AsyncStorage.getItem("token");
+        try {
+            const hist = {
+                candidatId: idCand,
+                offerId: idOffer,
+            };
+            const response = await fetch(
+                "http://192.168.0.119:3000/historyEmployer/findOneHistoryEmployer",
+                {
+                    method: "POST",
+                    body: JSON.stringify(hist),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+            if (response.ok) {
+                const result = await response.json();
+                setHistory(result);
+            } else {
+                const error = await response.json();
+                alert(error);
+            }
+        } catch (error) {}
+    };
+
     useEffect(() => {
         fetchCandidate();
+        fetchHistoryEmployer();
     }, []);
+
+    const btnLike = async () => {
+        const tok = await AsyncStorage.getItem("token");
+        try {
+            like = true;
+            dislike = false;
+
+            const historyLike = {
+                offerId: idOffer,
+                candidatId: idCand,
+                like: like,
+                dislike: dislike,
+            };
+
+            const response = await fetch(
+                `http://192.168.0.119:3000/historyEmployer/createHistoryEmployer`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(historyLike),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+            if (response.ok) {
+                navigation.replace("MessageEmployer");
+            } else {
+                const error = await response.json();
+                alert(error);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    const btnDislike = async () => {
+        const tok = await AsyncStorage.getItem("token");
+        try {
+            like = false;
+            dislike = true;
+
+            const historyLike = {
+                offerId: idOffer,
+                candidatId: idCand,
+                like: like,
+                dislike: dislike,
+            };
+
+            const response = await fetch(
+                `http://192.168.0.119:3000/historyEmployer/createHistoryEmployer`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(historyLike),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                }
+            );
+            if (response.ok) {
+                navigation.replace("NotifEmployer");
+            } else {
+                const error = await response.json();
+                alert(error);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -82,7 +189,7 @@ const DetailsCandidate = ({ route, navigation }) => {
                     <Text style={styles.titleDesc}>Ville :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.city.name}</Text>
+                    <Text style={styles.desc}>{city.name}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
                     <Text style={styles.titleDesc}>
@@ -113,20 +220,28 @@ const DetailsCandidate = ({ route, navigation }) => {
                     <Text style={styles.desc}>{data.cv}</Text>
                 </View>
             </ScrollView>
-            <View style={styles.btnContainer}>
-                <TouchableOpacity
-                    style={styles.btn}
-                    // onPress={btnLike}
-                >
-                    <AntDesign name="like1" size={50} color="green" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.btn}
-                    // onPress={btnDislike}
-                >
-                    <AntDesign name="dislike1" size={50} color="red" />
-                </TouchableOpacity>
-            </View>
+            {history == null ? (
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.btn} onPress={btnLike}>
+                        <AntDesign name="like1" size={50} color="green" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={btnDislike}>
+                        <AntDesign name="dislike1" size={50} color="red" />
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={styles.btnContainer}>
+                    {history.like == true ? (
+                        <Text style={styles.likedText}>
+                            Vous avez Liké ce profil !
+                        </Text>
+                    ) : (
+                        <Text style={styles.dislikedText}>
+                            Vous avez Disliké ce profil !
+                        </Text>
+                    )}
+                </View>
+            )}
         </View>
     );
 };
@@ -143,6 +258,7 @@ const styles = StyleSheet.create({
     btnContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
+        alignItems: "center",
         height: "10%",
         backgroundColor: "azure",
     },
@@ -172,7 +288,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginVertical: 3,
     },
-    btn: {},
+    btn: {
+        paddingBottom: 17,
+    },
     titleDesc: {
         fontSize: 17,
         fontWeight: "bold",
@@ -185,6 +303,18 @@ const styles = StyleSheet.create({
     },
     infos: {
         marginHorizontal: 8,
+    },
+    likedText: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "green",
+        paddingBottom: 15,
+    },
+    dislikedText: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "red",
+        paddingBottom: 15,
     },
 });
 
