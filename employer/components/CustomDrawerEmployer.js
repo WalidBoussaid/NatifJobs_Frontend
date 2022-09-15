@@ -49,7 +49,7 @@ const CustomDrawerEmployer = ({ props, navigation }) => {
                                 />
                             )}
                             onPress={() =>
-                                navigation.replace("MessageEmployeur")
+                                navigation.replace("MessageEmployer")
                             }
                         />
                         <DrawerItem
