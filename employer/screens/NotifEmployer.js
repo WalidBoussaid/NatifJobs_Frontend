@@ -63,8 +63,8 @@ const NotifEmployer = ({ navigation }) => {
             alert("Pas de notif à afficher !");
         }
         navigation.navigate("DetailsCandidate", {
-            idOffer: offerId,
             idCand: candidateId,
+            idOffer: offerId,
         });
     };
     useEffect(() => {
