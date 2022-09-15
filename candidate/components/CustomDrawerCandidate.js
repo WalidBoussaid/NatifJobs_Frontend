@@ -71,12 +71,12 @@ const CustomDrawerCandidate = ({ props, navigation }) => {
                             label="Notification"
                             icon={(color, size) => (
                                 <MaterialIcons
-                                    name="natifications"
+                                    name="notifications"
                                     size={20}
                                     color={color}
                                 />
                             )}
-                            //onPress={() => navigation.replace("")}
+                            onPress={() => navigation.replace("NotifCandidate")}
                         />
                     </Drawer.Section>
                 </View>

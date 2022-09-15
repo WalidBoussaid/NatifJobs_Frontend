@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import OfferDetails from "../screens/OfferDetails";
 import HistoryCandidate from "../screens/HistoryCandidate";
 import NotifEmployer from "../../employer/screens/NotifEmployer";
+import NotifCandidate from "../screens/NotifCandidate";
 
 const StackNav = createStackNavigator();
 
@@ -56,6 +57,13 @@ const StackNavScreenCandidate = ({ navigation }) => {
                 component={HistoryCandidate}
                 options={{
                     title: "Historique",
+                }}
+            />
+            <StackNav.Screen
+                name="NotifCandidate"
+                component={NotifCandidate}
+                options={{
+                    title: "Notification",
                 }}
             />
         </StackNav.Navigator>
