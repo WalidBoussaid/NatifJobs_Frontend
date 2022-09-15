@@ -74,6 +74,7 @@ const OfferDetails = ({ route, navigation }) => {
         };
 
         const fetchCategoryJob = async () => {
+            const tok = await AsyncStorage.getItem("token");
             try {
                 const response = await fetch(
                     "http://192.168.0.119:3000/category/allCategory",
@@ -81,6 +82,7 @@ const OfferDetails = ({ route, navigation }) => {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
                         },
                     }
                 );
@@ -95,6 +97,7 @@ const OfferDetails = ({ route, navigation }) => {
         };
 
         const fetchTypeOffer = async () => {
+            const tok = await AsyncStorage.getItem("token");
             try {
                 const response = await fetch(
                     "http://192.168.0.119:3000/typeOffer/allTypeOffer",
@@ -102,6 +105,7 @@ const OfferDetails = ({ route, navigation }) => {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            Authorization: `Bearer ${tok}`,
                         },
                     }
                 );

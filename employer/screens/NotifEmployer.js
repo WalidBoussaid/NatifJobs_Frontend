@@ -57,7 +57,6 @@ const NotifEmployer = ({ navigation }) => {
         if (response.ok) {
             const result = await response.json();
             setData(result);
-            //console.log(data[0].categoryJob.name);
         } else {
             alert("Pas de notif à afficher !");
         }
