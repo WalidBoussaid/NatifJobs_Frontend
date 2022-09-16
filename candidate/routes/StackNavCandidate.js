@@ -45,6 +45,9 @@ const StackNavScreenCandidate = ({ navigation }) => {
             <StackNav.Screen
                 name="MessageCandidate"
                 component={MessageCandidate}
+                options={{
+                    title: "Conversation",
+                }}
             />
             <StackNav.Screen
                 name="OfferDetails"

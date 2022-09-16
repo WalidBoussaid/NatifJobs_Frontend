@@ -83,7 +83,7 @@ const Login = ({ navigation }) => {
                     }
                 } else {
                     const error = await response.json();
-                    console.log(error);
+                    alert("Email ou mot de passe incorrect");
                 }
             }
         } catch (error) {

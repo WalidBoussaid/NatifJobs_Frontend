@@ -48,7 +48,7 @@ const MsgDetailsEmployer = ({ route }) => {
     };
     useEffect(() => {
         fetchData();
-    }, []);
+    });
 
     const submitMsg = async () => {
         try {
