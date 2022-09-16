@@ -10,6 +10,8 @@ import OfferDetails from "../screens/OfferDetails";
 import NotifEmployer from "../screens/NotifEmployer";
 import DetailsCandidate from "../screens/DetailsCandidate";
 import MsgDetailsEmployer from "../screens/MsgDetailsEmployer";
+import Rdv from "../screens/Rdv";
+import AddRdv from "../screens/AddRdv";
 
 const StackNav = createStackNavigator();
 
@@ -45,7 +47,13 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 }}
             />
 
-            <StackNav.Screen name="ProfilEmployer" component={ProfilEmployer} />
+            <StackNav.Screen
+                name="ProfilEmployer"
+                component={ProfilEmployer}
+                options={{
+                    title: "Modifier Profil",
+                }}
+            />
             <StackNav.Screen
                 name="AddOfferEmployer"
                 component={AddOfferEmployer}
@@ -75,6 +83,26 @@ const StackNavScreenEmployer = ({ navigation }) => {
                 name="MsgDetailsEmployer"
                 component={MsgDetailsEmployer}
                 options={{ title: "Message" }}
+            />
+            <StackNav.Screen
+                name="Rdv"
+                component={Rdv}
+                options={{
+                    title: "Rendez-vous",
+                    headerRight: () => (
+                        <MaterialIcons
+                            name="library-add"
+                            size={24}
+                            color="black"
+                            onPress={() => navigation.navigate("AddRdv")}
+                        />
+                    ),
+                }}
+            />
+            <StackNav.Screen
+                name="AddRdv"
+                component={AddRdv}
+                options={{ title: "Créer un Rendez-vous" }}
             />
         </StackNav.Navigator>
     );
