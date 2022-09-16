@@ -86,6 +86,7 @@ const MsgDetailsEmployer = ({ route }) => {
 
                 if (response.ok) {
                     fetchData();
+                    setMsg("");
                 } else {
                     const error = await response.json();
                     alert(error);
@@ -126,6 +127,7 @@ const MsgDetailsEmployer = ({ route }) => {
             <View style={styles.textinput}>
                 <TextInput
                     style={styles.input}
+                    value={msg}
                     multiline={true}
                     onChangeText={(text) => setMsg(text)}
                 />
