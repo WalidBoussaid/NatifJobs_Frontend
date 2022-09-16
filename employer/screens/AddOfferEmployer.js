@@ -100,7 +100,6 @@ const AddOfferEmployer = ({ navigation }) => {
         try {
             let isVerified = true;
             const tok = await AsyncStorage.getItem("token"); //recupère le token
-            console.log(tok);
 
             if (tok == "" || tok == null) {
                 isVerified = false;
