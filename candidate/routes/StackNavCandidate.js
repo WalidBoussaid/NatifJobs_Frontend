@@ -9,6 +9,7 @@ import OfferDetails from "../screens/OfferDetails";
 import HistoryCandidate from "../screens/HistoryCandidate";
 import NotifEmployer from "../../employer/screens/NotifEmployer";
 import NotifCandidate from "../screens/NotifCandidate";
+import MsgDetailsCandidate from "../screens/MsgDetailsCandidate";
 
 const StackNav = createStackNavigator();
 
@@ -64,6 +65,13 @@ const StackNavScreenCandidate = ({ navigation }) => {
                 component={NotifCandidate}
                 options={{
                     title: "Notification",
+                }}
+            />
+            <StackNav.Screen
+                name="MsgDetailsCandidate"
+                component={MsgDetailsCandidate}
+                options={{
+                    title: "Message",
                 }}
             />
         </StackNav.Navigator>
