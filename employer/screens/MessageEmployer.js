@@ -43,7 +43,9 @@ const MessageEmployer = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() =>
-                            navigation.navigate("MsgDetailsEmployer")
+                            navigation.navigate("MsgDetailsEmployer", {
+                                id: item.id,
+                            })
                         }
                     >
                         <View style={styles.offer}>
