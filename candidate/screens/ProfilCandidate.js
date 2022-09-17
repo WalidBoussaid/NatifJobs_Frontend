@@ -395,7 +395,7 @@ const ProfilCandidate = ({ navigation }) => {
                         style={styles.input}
                         onChangeText={(text) => setFirsttName(text)}
                     />
-
+                    <Text style={styles.sousText}>Votre Photo</Text>
                     <View style={styles.photoContainer}>
                         <View style={styles.wrapper}>
                             <Image
