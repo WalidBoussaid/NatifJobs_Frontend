@@ -1,5 +1,6 @@
 import {
     Image,
+    Linking,
     ScrollView,
     StyleSheet,
     Text,
@@ -217,7 +218,9 @@ const DetailsCandidate = ({ route, navigation }) => {
                     <Text style={styles.titleDesc}>CV :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.cv}</Text>
+                    <TouchableOpacity onPress={() => Linking.openURL(data.cv)}>
+                        <Text style={styles.desc}>{data.firstName}_cv.pdf</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
             {history == null ? (

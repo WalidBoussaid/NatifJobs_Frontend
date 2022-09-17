@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     Image,
+    Linking,
     ScrollView,
     StyleSheet,
     Text,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 import Checkbox from "expo-checkbox";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -26,7 +28,6 @@ const RegisterCandidate = ({ route, navigation }) => {
         "https://gem.ec-nantes.fr/wp-content/uploads/2019/01/profil-vide.png"
     );
     const [dateOfBirth, setDateOfBirth] = useState("");
-    const [placeOfBirth, setPlaceOfBirth] = useState("");
     const [nationality, setNationality] = useState("");
     const [adress, setAdress] = useState("");
     const [postalCode, setPostalCode] = useState("");
@@ -36,10 +37,14 @@ const RegisterCandidate = ({ route, navigation }) => {
     const [cv, setCv] = useState("");
     const [isChecked, setIsChecked] = useState(false);
     const [urlProfilImage, setUrlProfilImage] = useState("");
+    const [urlCvPdf, setUrlCvPdf] = useState("");
     const [city, setCity] = useState([]);
     const [selectedCity, setSelectedCity] = useState([]);
 
+    let pdfName = "CV-" + firstName + "-" + lastName;
+
     const storageRef = ref(storage, "profilImg/" + mail);
+    const storageRefPdf = ref(storage, "pdfCV/" + pdfName);
 
     const fetchCity = async () => {
         try {
@@ -64,6 +69,7 @@ const RegisterCandidate = ({ route, navigation }) => {
 
     useEffect(() => {
         fetchCity();
+        console.log(pdfName);
     }, []);
 
     const handleSubmit = async () => {
@@ -138,9 +144,9 @@ const RegisterCandidate = ({ route, navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer vos hobbys avec  min 4 caractères");
             }
-            if (cv.length < 4) {
+            if (urlCvPdf.length < 4) {
                 isVerified = false;
-                alert("Veuillez entrer un nom de cv avec min 4 caractères");
+                alert("Veuillez entrer un cv avec min 4 caractères");
             }
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
@@ -160,7 +166,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                     lastDiplomaObtained: lastDiplomaObtained,
                     lastExperiencepro: lastExperiencepro,
                     hobbies: hobbies,
-                    cv: cv,
+                    cv: urlCvPdf,
                     cityId: selectedCity.id,
                 };
 
@@ -184,6 +190,34 @@ const RegisterCandidate = ({ route, navigation }) => {
         } catch (error) {
             alert(error.message);
         }
+    };
+
+    const pickPdf = async () => {
+        try {
+            let res = await DocumentPicker.getDocumentAsync({
+                type: "application/pdf",
+            });
+            console.log(res);
+
+            if (!res.cancelled) {
+                setCv(res.name);
+
+                const pdf = await fetch(res.uri);
+                const bytes = await pdf.blob();
+
+                await uploadBytes(storageRefPdf, bytes)
+                    .then(() => {
+                        console.log("success");
+                    })
+                    .catch((error) => {
+                        console.log("Failed !");
+                    });
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+
+        await fetchUrlCv();
     };
 
     const pickImage = async () => {
@@ -215,6 +249,11 @@ const RegisterCandidate = ({ route, navigation }) => {
     const fetchUrl = async () => {
         const test = await getDownloadURL(storageRef);
         setUrlProfilImage(test);
+    };
+
+    const fetchUrlCv = async () => {
+        const test = await getDownloadURL(storageRefPdf);
+        setUrlCvPdf(test);
     };
 
     return (
@@ -336,11 +375,25 @@ const RegisterCandidate = ({ route, navigation }) => {
                         onChangeText={(text) => setHobbies(text)}
                     />
                     <Text style={styles.sousText}>Votre CV</Text>
-                    <TextInput
-                        placeholder="Votre CV"
-                        style={styles.input}
-                        onChangeText={(text) => setCv(text)}
-                    />
+                    <View style={styles.photoContainer}>
+                        <View style={styles.wrapperCv}>
+                            <TouchableOpacity
+                                onPress={() => Linking.openURL(urlCvPdf)}
+                            >
+                                <Text>{cv}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.touchableImage}
+                                onPress={pickPdf}
+                            >
+                                <View>
+                                    <Text style={styles.btnTextImage}>
+                                        Sélectionner un pdf
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
 
                     <View style={styles.checkboxContainer}>
                         <Checkbox
@@ -410,6 +463,13 @@ const styles = StyleSheet.create({
     wrapper: {
         width: "100%",
         height: 300,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 9,
+    },
+    wrapperCv: {
+        width: "100%",
+        height: 30,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 9,
