@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     Image,
+    Linking,
     ScrollView,
     StyleSheet,
     Text,
@@ -12,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
+import * as DocumentPicker from "expo-document-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
 
@@ -33,6 +35,7 @@ const ProfilCandidate = ({ navigation }) => {
     const [hobbies, setHobbies] = useState("");
     const [cv, setCv] = useState("");
     const [urlProfilImage, setUrlProfilImage] = useState("");
+    const [urlCvPdf, setUrlCvPdf] = useState("");
     const [allCity, setAllCity] = useState([]);
     const [selectedCity, setSelectedCity] = useState([]);
     const [candidate, setCandidate] = useState([]);
@@ -44,7 +47,10 @@ const ProfilCandidate = ({ navigation }) => {
     const [isLoadingCandidate, setIsLoadingCandidate] = useState(true);
     const [isLoadingLogin, setIsLoadingLogin] = useState(true);
 
+    let pdfName = "CV-" + firstName + "-" + lastName;
+
     const storageRef = ref(storage, "profilImg/" + mail);
+    const storageRefPdf = ref(storage, "pdfCV/" + pdfName);
 
     const fetchCity = async () => {
         try {
@@ -150,6 +156,34 @@ const ProfilCandidate = ({ navigation }) => {
             isLoadingCandidate == true,
     ]);
 
+    const pickPdf = async () => {
+        try {
+            let res = await DocumentPicker.getDocumentAsync({
+                type: "application/pdf",
+            });
+            console.log(res);
+
+            if (!res.cancelled) {
+                setCv(res.name);
+
+                const pdf = await fetch(res.uri);
+                const bytes = await pdf.blob();
+
+                await uploadBytes(storageRefPdf, bytes)
+                    .then(() => {
+                        console.log("success");
+                    })
+                    .catch((error) => {
+                        console.log("Failed !");
+                    });
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+
+        await fetchUrlCv();
+    };
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
@@ -179,6 +213,10 @@ const ProfilCandidate = ({ navigation }) => {
     const fetchUrl = async () => {
         const test = await getDownloadURL(storageRef);
         setUrlProfilImage(test);
+    };
+    const fetchUrlCv = async () => {
+        const test = await getDownloadURL(storageRefPdf);
+        setUrlCvPdf(test);
     };
 
     const handleSubmit = async () => {
@@ -286,7 +324,7 @@ const ProfilCandidate = ({ navigation }) => {
                     lastDiplomaObtained: lastDiplomaObtained,
                     lastExperiencepro: lastExperiencepro,
                     hobbies: hobbies,
-                    cv: cv,
+                    cv: urlCvPdf == "" ? cv : urlCvPdf,
                     cityId: selectedCity.id,
                 };
 
@@ -323,7 +361,7 @@ const ProfilCandidate = ({ navigation }) => {
                     lastDiplomaObtained: lastDiplomaObtained,
                     lastExperiencepro: lastExperiencepro,
                     hobbies: hobbies,
-                    cv: cv,
+                    cv: urlCvPdf == "" ? cv : urlCvPdf,
                     cityId: selectedCity.id,
                 };
 
@@ -480,11 +518,25 @@ const ProfilCandidate = ({ navigation }) => {
                         onChangeText={(text) => setHobbies(text)}
                     />
                     <Text style={styles.sousText}>Votre CV</Text>
-                    <TextInput
-                        defaultValue={cv}
-                        style={styles.input}
-                        onChangeText={(text) => setCv(text)}
-                    />
+                    <View style={styles.photoContainer}>
+                        <View style={styles.wrapperCv}>
+                            <TouchableOpacity
+                                onPress={() => Linking.openURL(cv)}
+                            >
+                                <Text>{cv}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.touchableImage}
+                                onPress={pickPdf}
+                            >
+                                <View>
+                                    <Text style={styles.btnTextImage}>
+                                        Sélectionner un pdf
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
 
                     <TouchableOpacity
                         style={styles.touchable}

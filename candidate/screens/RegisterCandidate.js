@@ -378,7 +378,6 @@ const RegisterCandidate = ({ route, navigation }) => {
                     <View style={styles.photoContainer}>
                         <View style={styles.wrapperCv}>
                             <Text>{cv}</Text>
-
                             <TouchableOpacity
                                 style={styles.touchableImage}
                                 onPress={pickPdf}
