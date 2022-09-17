@@ -93,7 +93,7 @@ const AddRdv = ({ navigation }) => {
                 );
 
                 if (response.ok) {
-                    navigation.goBack();
+                    navigation.replace("Rdv");
                 } else {
                     const error = await response.json();
                     alert(error);
