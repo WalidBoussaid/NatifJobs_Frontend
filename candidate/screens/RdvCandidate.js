@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RdvCandidate = ({ navigation }) => {
+const RdvCandidate = () => {
     const [data, setData] = useState([]);
     const fetchData = async () => {
         try {
