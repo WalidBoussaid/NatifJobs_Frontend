@@ -78,6 +78,17 @@ const CustomDrawerCandidate = ({ props, navigation }) => {
                             )}
                             onPress={() => navigation.replace("NotifCandidate")}
                         />
+                        <DrawerItem
+                            label="Mes rdv"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="people"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("RdvCandidate")}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>
