@@ -377,11 +377,8 @@ const RegisterCandidate = ({ route, navigation }) => {
                     <Text style={styles.sousText}>Votre CV</Text>
                     <View style={styles.photoContainer}>
                         <View style={styles.wrapperCv}>
-                            <TouchableOpacity
-                                onPress={() => Linking.openURL(urlCvPdf)}
-                            >
-                                <Text>{cv}</Text>
-                            </TouchableOpacity>
+                            <Text>{cv}</Text>
+
                             <TouchableOpacity
                                 style={styles.touchableImage}
                                 onPress={pickPdf}
