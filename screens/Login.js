@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
                 } else if (role == "employer") {
                     navigation.replace("HomeEmployer");
                 } else {
-                    alert("admin");
+                    navigation.replace("HomeAdmin");
                 }
             }
         };
@@ -79,7 +79,7 @@ const Login = ({ navigation }) => {
                     } else if (data.role == "employer") {
                         navigation.navigate("HomeEmployer");
                     } else {
-                        alert("admin");
+                        navigation.replace("HomeAdmin");
                     }
                 } else {
                     const error = await response.json();
