@@ -10,6 +10,7 @@ import OfferDetails from "../screens/OfferDetails";
 import NotifEmployer from "../screens/NotifEmployer";
 import DetailsCandidate from "../screens/DetailsCandidate";
 import MsgDetailsEmployer from "../screens/MsgDetailsEmployer";
+import Rgpd from "../../screens/Rgpd";
 import Rdv from "../screens/Rdv";
 import AddRdv from "../screens/AddRdv";
 

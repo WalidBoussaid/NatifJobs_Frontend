@@ -16,6 +16,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
+import Rgpd from "../../screens/Rgpd";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
@@ -279,7 +280,11 @@ const RegisterEmployer = ({ route, navigation }) => {
                             onValueChange={(newValue) => setIsChecked(newValue)}
                             color={isChecked ? "blue" : undefined}
                         />
-                        <Text>Accepter Mention légale</Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(Rgpd)}
+                        >
+                            <Text>Accepter Mention légale</Text>
+                        </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity

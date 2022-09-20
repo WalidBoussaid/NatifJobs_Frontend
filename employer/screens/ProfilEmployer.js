@@ -153,7 +153,6 @@ const ProfilEmployer = ({ navigation }) => {
                 mail.length < 7
             ) {
                 isVerified = false;
-                console.log("mail");
                 alert("Veuillez entrer un email valide");
             }
             if (password !== oldPassword) {

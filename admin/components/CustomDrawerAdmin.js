@@ -71,7 +71,7 @@ const CustomDrawerAdmin = ({ props, navigation }) => {
                                     color={color}
                                 />
                             )}
-                            onPress={() => navigation.replace("Rgpd")}
+                            onPress={() => navigation.replace("RgpdUpdate")}
                         />
                     </Drawer.Section>
                 </View>

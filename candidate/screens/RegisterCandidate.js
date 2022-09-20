@@ -17,6 +17,7 @@ import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Rgpd from "../../screens/Rgpd";
 
 const RegisterCandidate = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
@@ -399,7 +400,11 @@ const RegisterCandidate = ({ route, navigation }) => {
                             onValueChange={(newValue) => setIsChecked(newValue)}
                             color={isChecked ? "blue" : undefined}
                         />
-                        <Text>Accepter Mention légale</Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(Rgpd)}
+                        >
+                            <Text>Accepter Mention légale</Text>
+                        </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity

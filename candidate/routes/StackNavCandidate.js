@@ -7,10 +7,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import OfferDetails from "../screens/OfferDetails";
 import HistoryCandidate from "../screens/HistoryCandidate";
-import NotifEmployer from "../../employer/screens/NotifEmployer";
 import NotifCandidate from "../screens/NotifCandidate";
 import MsgDetailsCandidate from "../screens/MsgDetailsCandidate";
 import RdvCandidate from "../screens/RdvCandidate";
+import Rgpd from "../../screens/Rgpd";
 
 const StackNav = createStackNavigator();
 

@@ -9,6 +9,7 @@ import DrawerNavCandidate from "./candidate/routes/DrawerNavCandidate";
 import DrawerNavEmployer from "./employer/routes/DrawerNavEmployer";
 import { LogBox } from "react-native";
 import DrawerNavAdmin from "./admin/routes/DrawerNavAdmin";
+import Rgpd from "./screens/Rgpd";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,11 @@ export default function App() {
                 <Stack.Screen
                     name="HomeEmployer"
                     component={DrawerNavEmployer}
+                />
+                <Stack.Screen
+                    name="Rgpd"
+                    component={Rgpd}
+                    options={{ title: "Mention légale" }}
                 />
                 <Stack.Screen name="HomeAdmin" component={DrawerNavAdmin} />
             </Stack.Navigator>
