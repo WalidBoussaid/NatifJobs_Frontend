@@ -399,7 +399,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                             onValueChange={(newValue) => setIsChecked(newValue)}
                             color={isChecked ? "blue" : undefined}
                         />
-                        <Text>Mention légale</Text>
+                        <Text>Accepter Mention légale</Text>
                     </View>
 
                     <TouchableOpacity

@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Notifications from "expo-notifications";
 
 const MsgDetailsEmployer = ({ route }) => {
     const [data, setData] = useState([]);
@@ -45,6 +46,17 @@ const MsgDetailsEmployer = ({ route }) => {
         } catch (error) {
             alert(error.message);
         }
+    };
+    const handleNotif = () => {
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Nouveau message",
+                body: "Vous avez reçu un nouveau message",
+            },
+            trigger: {
+                seconds: 5,
+            },
+        });
     };
     useEffect(() => {
         fetchData();
@@ -85,6 +97,7 @@ const MsgDetailsEmployer = ({ route }) => {
                 );
 
                 if (response.ok) {
+                    handleNotif();
                     fetchData();
                     setMsg("");
                 } else {
