@@ -1,5 +1,6 @@
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { Drawer } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -27,6 +28,39 @@ const CustomDrawerAdmin = ({ props, navigation }) => {
                                 />
                             )}
                             onPress={() => navigation.replace("HomeAdmin")}
+                        />
+                        <DrawerItem
+                            label="Catégorie"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="work-outline"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("AddCategoryJob")}
+                        />
+                        <DrawerItem
+                            label="Ville"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="place"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("AddCity")}
+                        />
+                        <DrawerItem
+                            label="Type d'offre"
+                            icon={(color, size) => (
+                                <FontAwesome5
+                                    name="file-contract"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("AddTypeOffer")}
                         />
                     </Drawer.Section>
                 </View>

@@ -3,6 +3,9 @@ import React from "react";
 import HomeAdmin from "../screen/HomeAdmin";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import AddCategoryJob from "../screen/AddCategoryJob";
+import AddCity from "../screen/AddCity";
+import AddTypeOffer from "../screen/AddTypeOffer";
 
 const StackNav = createStackNavigator();
 
@@ -25,6 +28,27 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={HomeAdmin}
                 options={{
                     title: "Utilisateur",
+                }}
+            />
+            <StackNav.Screen
+                name="AddCategoryJob"
+                component={AddCategoryJob}
+                options={{
+                    title: "Categorie Job",
+                }}
+            />
+            <StackNav.Screen
+                name="AddCity"
+                component={AddCity}
+                options={{
+                    title: "Ville",
+                }}
+            />
+            <StackNav.Screen
+                name="AddTypeOffer"
+                component={AddTypeOffer}
+                options={{
+                    title: "Type d'offre",
                 }}
             />
         </StackNav.Navigator>
