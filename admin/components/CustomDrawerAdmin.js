@@ -62,6 +62,17 @@ const CustomDrawerAdmin = ({ props, navigation }) => {
                             )}
                             onPress={() => navigation.replace("AddTypeOffer")}
                         />
+                        <DrawerItem
+                            label="Mention légale"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="file-present"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("Rgpd")}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>

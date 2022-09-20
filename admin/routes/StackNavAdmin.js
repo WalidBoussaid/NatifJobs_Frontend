@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AddCategoryJob from "../screen/AddCategoryJob";
 import AddCity from "../screen/AddCity";
 import AddTypeOffer from "../screen/AddTypeOffer";
+import Rgpd from "../screen/Rgpd";
 
 const StackNav = createStackNavigator();
 
@@ -49,6 +50,13 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={AddTypeOffer}
                 options={{
                     title: "Type d'offre",
+                }}
+            />
+            <StackNav.Screen
+                name="Rgpd"
+                component={Rgpd}
+                options={{
+                    title: "Mention légale",
                 }}
             />
         </StackNav.Navigator>
