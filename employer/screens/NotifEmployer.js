@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const NotifEmployer = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ const NotifEmployer = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            "http://192.168.0.119:3000/notifEmployer/allNotif",
+            `http://${ip}:3000/notifEmployer/allNotif`,
             {
                 method: "GET",
                 headers: {
@@ -45,7 +46,7 @@ const NotifEmployer = ({ navigation }) => {
         };
 
         const response = await fetch(
-            "http://192.168.0.119:3000/notifEmployer/updateNotif",
+            `http://${ip}:3000/notifEmployer/updateNotif`,
             {
                 method: "POST",
                 body: JSON.stringify(visited),

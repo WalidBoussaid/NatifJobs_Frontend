@@ -15,7 +15,7 @@ const ListCandidate = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            "http://192.168.0.119:3000/candidate/AllCandidate",
+            `http://${ip}:3000/candidate/AllCandidate`,
             {
                 method: "GET",
                 headers: {

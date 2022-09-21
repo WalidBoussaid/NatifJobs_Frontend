@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Pressable,
     StyleSheet,
@@ -10,11 +10,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Register = ({ navigation }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isCandidate, setIsCandidate] = useState(false);
-    const [isEmployer, setIsEmployer] = useState(false);
-
     const handleSubmitCandidate = () => {
         navigation.replace("RegisterCandidate");
     };

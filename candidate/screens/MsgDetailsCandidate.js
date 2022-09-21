@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ip } from "../../ip";
 
 const MsgDetailsCandidate = ({ route }) => {
     const [data, setData] = useState([]);
@@ -25,7 +26,7 @@ const MsgDetailsCandidate = ({ route }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
         try {
             const response = await fetch(
-                "http://192.168.0.119:3000/message/allMessage",
+                `http://${ip}:3000/message/allMessage`,
                 {
                     method: "POST",
                     body: JSON.stringify(dataMsg),
@@ -72,7 +73,7 @@ const MsgDetailsCandidate = ({ route }) => {
                     matchId: matchId,
                 };
                 const response = await fetch(
-                    "http://192.168.0.119:3000/message/createMessageCand",
+                    `http://${ip}:3000/message/createMessageCand`,
                     {
                         method: "POST",
                         body: JSON.stringify(message),

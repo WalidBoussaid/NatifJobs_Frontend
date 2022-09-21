@@ -7,13 +7,14 @@ import {
     View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import { ip } from "../ip";
 
 const Rgpd = ({ navigation }) => {
     const [data, setData] = useState("");
     const [text, setText] = useState("");
 
     const fetchData = async () => {
-        const response = await fetch("http://192.168.0.119:3000/rgpd/", {
+        const response = await fetch(`http://${ip}:3000/rgpd/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

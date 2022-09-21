@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const AddTypeOffer = () => {
     const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const AddTypeOffer = () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            "http://192.168.0.119:3000/typeOffer/allTypeOffer",
+            `http://${ip}:3000/typeOffer/allTypeOffer`,
             {
                 method: "GET",
                 headers: {
@@ -58,7 +59,7 @@ const AddTypeOffer = () => {
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/typeOffer/addTypeOffer",
+                    `http://${ip}:3000/typeOffer/addTypeOffer`,
                     {
                         method: "POST",
                         body: JSON.stringify(typeOffer),
@@ -107,7 +108,7 @@ const AddTypeOffer = () => {
                             };
                             try {
                                 const response = await fetch(
-                                    "http://192.168.0.119:3000/typeOffer/deleteTypeOffer",
+                                    `http://${ip}:3000/typeOffer/deleteTypeOffer`,
                                     {
                                         method: "DELETE",
                                         body: JSON.stringify(type),

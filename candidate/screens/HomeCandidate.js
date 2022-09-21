@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
+import { ip } from "../../ip";
 
 const HomeCandidate = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -25,16 +26,13 @@ const HomeCandidate = ({ navigation }) => {
 
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token");
-        const response = await fetch(
-            "http://192.168.0.119:3000/offer/AllOffer",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                },
-            }
-        );
+        const response = await fetch(`http://${ip}:3000/offer/AllOffer`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+            },
+        });
 
         if (response.ok) {
             const result = await response.json();
@@ -47,7 +45,7 @@ const HomeCandidate = ({ navigation }) => {
 
     const fetchCity = async () => {
         const tok = await AsyncStorage.getItem("token");
-        const response = await fetch("http://192.168.0.119:3000/city/allCity", {
+        const response = await fetch(`http://${ip}:3000/city/allCity`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -65,16 +63,13 @@ const HomeCandidate = ({ navigation }) => {
 
     const fetchCat = async () => {
         const tok = await AsyncStorage.getItem("token");
-        const response = await fetch(
-            "http://192.168.0.119:3000/category/allCategory",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                },
-            }
-        );
+        const response = await fetch(`http://${ip}:3000/category/allCategory`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+            },
+        });
 
         if (response.ok) {
             const result = await response.json();
@@ -87,7 +82,7 @@ const HomeCandidate = ({ navigation }) => {
     const fetchType = async () => {
         const tok = await AsyncStorage.getItem("token");
         const response = await fetch(
-            "http://192.168.0.119:3000/typeOffer/allTypeOffer",
+            `http://${ip}:3000/typeOffer/allTypeOffer`,
             {
                 method: "GET",
                 headers: {
@@ -121,17 +116,14 @@ const HomeCandidate = ({ navigation }) => {
             cityId: citySelected.id,
         };
 
-        const response = await fetch(
-            "http://192.168.0.119:3000/offer/OfferFiltred",
-            {
-                method: "POST",
-                body: JSON.stringify(filter),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                },
-            }
-        );
+        const response = await fetch(`http://${ip}:3000/offer/OfferFiltred`, {
+            method: "POST",
+            body: JSON.stringify(filter),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+            },
+        });
 
         if (response.ok) {
             const result = await response.json();

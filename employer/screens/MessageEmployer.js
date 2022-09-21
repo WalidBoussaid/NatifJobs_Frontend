@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const MessageEmployer = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ const MessageEmployer = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            "http://192.168.0.119:3000/match/allMatchEmployer",
+            `http://${ip}:3000/match/allMatchEmployer`,
             {
                 method: "GET",
                 headers: {

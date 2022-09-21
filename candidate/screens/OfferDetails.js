@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import jwt_decode from "jwt-decode";
+import { ip } from "../../ip";
 
 const OfferDetails = ({ route, navigation }) => {
     const [offer, setOffer] = useState([]);
@@ -26,7 +27,7 @@ const OfferDetails = ({ route, navigation }) => {
         const tok = await AsyncStorage.getItem("token");
         try {
             const response = await fetch(
-                `http://192.168.0.119:3000/offer/OfferSelected/${id}`,
+                `http://${ip}:3000/offer/OfferSelected/${id}`,
                 {
                     method: "GET",
                     headers: {
@@ -66,17 +67,14 @@ const OfferDetails = ({ route, navigation }) => {
                 dislike: dislike,
             };
 
-            const response = await fetch(
-                `http://192.168.0.119:3000/historyCandidate`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(history),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${tok}`,
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/historyCandidate`, {
+                method: "POST",
+                body: JSON.stringify(history),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tok}`,
+                },
+            });
             if (response.ok) {
                 navigation.replace("HomeCandidate");
             } else {
@@ -105,17 +103,14 @@ const OfferDetails = ({ route, navigation }) => {
                 dislike: dislike,
             };
 
-            const response = await fetch(
-                `http://192.168.0.119:3000/historyCandidate`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(historyDislike),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${tok}`,
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/historyCandidate`, {
+                method: "POST",
+                body: JSON.stringify(historyDislike),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tok}`,
+                },
+            });
             if (response.ok) {
                 navigation.replace("HomeCandidate");
             } else {

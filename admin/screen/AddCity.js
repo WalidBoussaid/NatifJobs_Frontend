@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const AddCity = () => {
     const [data, setData] = useState([]);
@@ -16,7 +17,7 @@ const AddCity = () => {
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
-        const response = await fetch("http://192.168.0.119:3000/city/allCity", {
+        const response = await fetch(`http://${ip}:3000/city/allCity`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const AddCity = () => {
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/city/addCity",
+                    `http://${ip}:3000//city/addCity`,
                     {
                         method: "POST",
                         body: JSON.stringify(cit),
@@ -104,7 +105,7 @@ const AddCity = () => {
                             };
                             try {
                                 const response = await fetch(
-                                    "http://192.168.0.119:3000/city/deleteCity",
+                                    `http://${ip}:3000/:3000/city/deleteCity`,
                                     {
                                         method: "DELETE",
                                         body: JSON.stringify(cat),

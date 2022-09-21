@@ -8,6 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
+import { ip } from "../../ip";
 
 const HomeEmployer = ({ navigation }) => {
     const [userId, setUserId] = useState("");
@@ -22,17 +23,14 @@ const HomeEmployer = ({ navigation }) => {
             employerId: userId,
         };
 
-        const response = await fetch(
-            "http://192.168.0.119:3000/offer/myAllOffer",
-            {
-                method: "POST",
-                body: JSON.stringify(log),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                },
-            }
-        );
+        const response = await fetch(`http://${ip}:3000/offer/myAllOffer`, {
+            method: "POST",
+            body: JSON.stringify(log),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+            },
+        });
 
         if (response.ok) {
             const result = await response.json();

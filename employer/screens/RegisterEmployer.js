@@ -17,6 +17,7 @@ import { db, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
 import Rgpd from "../../screens/Rgpd";
+import { ip } from "../../ip";
 
 const RegisterEmployer = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
@@ -40,15 +41,12 @@ const RegisterEmployer = ({ route, navigation }) => {
 
     const fetchCity = async () => {
         try {
-            const response = await fetch(
-                "http://192.168.0.119:3000/city/allCity",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/city/allCity`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (response.ok) {
                 const result = await response.json();
@@ -141,7 +139,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/registerLogin/employer",
+                    `http://${ip}:3000/registerLogin/employer`,
                     {
                         method: "POST",
                         body: JSON.stringify(emp),

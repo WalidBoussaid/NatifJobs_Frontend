@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
+import { ip } from "../../ip";
 
 const HistoryCandidate = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -21,7 +22,7 @@ const HistoryCandidate = ({ navigation }) => {
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token");
         const response = await fetch(
-            "http://192.168.0.119:3000/historyCandidate/allMyHistoryCandidate",
+            `http://${ip}:3000/historyCandidate/allMyHistoryCandidate`,
             {
                 method: "GET",
                 headers: {

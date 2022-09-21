@@ -15,6 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
+import { ip } from "../../ip";
 
 const ProfilEmployer = ({ navigation }) => {
     const [mail, setMail] = useState("");
@@ -45,15 +46,12 @@ const ProfilEmployer = ({ navigation }) => {
 
     const fetchCity = async () => {
         try {
-            const response = await fetch(
-                "http://192.168.0.119:3000/city/allCity",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/city/allCity`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (response.ok) {
                 const result = await response.json();
@@ -73,7 +71,7 @@ const ProfilEmployer = ({ navigation }) => {
             setLoginId(decoded.loginId);
 
             const response = await fetch(
-                `http://192.168.0.119:3000/login/findLogin/${loginId}`,
+                `http://${ip}:3000/login/findLogin/${loginId}`,
                 {
                     method: "GET",
                     headers: {
@@ -102,7 +100,7 @@ const ProfilEmployer = ({ navigation }) => {
         setUserId(decoded.userId);
         try {
             const response = await fetch(
-                `http://192.168.0.119:3000/employer/oneEmployer/${userId}`,
+                `http://${ip}:3000/employer/oneEmployer/${userId}`,
                 {
                     method: "GET",
                     headers: {
@@ -216,7 +214,7 @@ const ProfilEmployer = ({ navigation }) => {
                 };
 
                 const response = await fetch(
-                    `http://192.168.0.119:3000/employer/employerUpdate/${loginId}`,
+                    `http://${ip}:3000/employer/employerUpdate/${loginId}`,
                     {
                         method: "POST",
                         body: JSON.stringify(emp),
@@ -248,7 +246,7 @@ const ProfilEmployer = ({ navigation }) => {
                 };
 
                 const response = await fetch(
-                    `http://192.168.0.119:3000/employer/employerUpdate/${loginId}`,
+                    `http://${ip}:3000/employer/employerUpdate/${loginId}`,
                     {
                         method: "POST",
                         body: JSON.stringify(emp),

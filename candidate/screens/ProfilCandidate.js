@@ -16,6 +16,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import * as DocumentPicker from "expo-document-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
+import { ip } from "../../ip";
 
 const ProfilCandidate = ({ navigation }) => {
     const [mail, setMail] = useState("");
@@ -54,15 +55,12 @@ const ProfilCandidate = ({ navigation }) => {
 
     const fetchCity = async () => {
         try {
-            const response = await fetch(
-                "http://192.168.0.119:3000/city/allCity",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/city/allCity`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (response.ok) {
                 const result = await response.json();
@@ -82,7 +80,7 @@ const ProfilCandidate = ({ navigation }) => {
             setLoginId(decoded.loginId);
 
             const response = await fetch(
-                `http://192.168.0.119:3000/login/findLogin/${loginId}`,
+                `http://${ip}:3000/login/findLogin/${loginId}`,
                 {
                     method: "GET",
                     headers: {
@@ -111,7 +109,7 @@ const ProfilCandidate = ({ navigation }) => {
         setUserId(decoded.userId);
         try {
             const response = await fetch(
-                `http://192.168.0.119:3000/candidate/oneCandidate/${userId}`,
+                `http://${ip}:3000/candidate/oneCandidate/${userId}`,
                 {
                     method: "GET",
                     headers: {
@@ -329,7 +327,7 @@ const ProfilCandidate = ({ navigation }) => {
                 };
 
                 const response = await fetch(
-                    `http://192.168.0.119:3000/candidate/updateCandidate/${loginId}`,
+                    `http://${ip}:3000/candidate/updateCandidate/${loginId}`,
                     {
                         method: "POST",
                         body: JSON.stringify(cand),
@@ -366,7 +364,7 @@ const ProfilCandidate = ({ navigation }) => {
                 };
 
                 const response = await fetch(
-                    `http://192.168.0.119:3000/candidate/updateCandidate/${loginId}`,
+                    `http://${ip}:3000/candidate/updateCandidate/${loginId}`,
                     {
                         method: "POST",
                         body: JSON.stringify(cand),

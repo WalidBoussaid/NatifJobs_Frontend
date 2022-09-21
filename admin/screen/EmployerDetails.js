@@ -10,22 +10,22 @@ import {
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CandidatDetails = ({ route, navigation }) => {
-    const { id } = route.params; // id du candidat
+const EmployerDetails = ({ route, navigation }) => {
+    const { id } = route.params; // id de l'employeur
     const [data, setData] = useState([]);
     const [city, setCity] = useState([]);
 
-    const fetchCandidate = async () => {
+    const fetchEmployer = async () => {
         const tok = await AsyncStorage.getItem("token");
         try {
-            const cand = {
-                candId: id,
+            const emp = {
+                empId: id,
             };
             const response = await fetch(
-                `http://${ip}:3000/candidate/findCandidate/${id}`,
+                `http://${ip}:3000/employer/findEmployer/${id}`,
                 {
                     method: "POST",
-                    body: JSON.stringify(cand),
+                    body: JSON.stringify(emp),
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${tok}`,
@@ -46,21 +46,21 @@ const CandidatDetails = ({ route, navigation }) => {
     };
 
     useEffect(() => {
-        fetchCandidate();
+        fetchEmployer();
     }, []);
 
     const handleSubmitRemove = async () => {
         const tok = await AsyncStorage.getItem("token");
-        const cand = {
-            candId: id,
+        const emp = {
+            empId: id,
             loginId: data.loginId,
         };
         try {
             const response = await fetch(
-                `http://${ip}:3000/candidate/deleteCandidate`,
+                `http://${ip}:3000/employer/deleteEmployer`,
                 {
                     method: "DELETE",
-                    body: JSON.stringify(cand),
+                    body: JSON.stringify(emp),
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",
@@ -70,8 +70,8 @@ const CandidatDetails = ({ route, navigation }) => {
             );
 
             if (response.ok) {
-                alert("Candidat supprimer !");
-                navigation.replace("ListCandidate");
+                alert("Employeur supprimer !");
+                navigation.replace("ListEmployer");
             } else {
                 const error = await response.json();
                 alert(error);
@@ -80,15 +80,11 @@ const CandidatDetails = ({ route, navigation }) => {
             alert(error.message);
         }
     };
-
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scroll}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>
-                        {data.firstName}
-                        {"  "} {data.lastName}
-                    </Text>
+                    <Text style={styles.title}>{data.name}</Text>
                 </View>
                 <View style={styles.imageContainer}>
                     <Image
@@ -103,16 +99,16 @@ const CandidatDetails = ({ route, navigation }) => {
                     <Text style={styles.desc}>{data.email}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>Nationalité :</Text>
+                    <Text style={styles.titleDesc}>Adresse :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.nationality}</Text>
+                    <Text style={styles.desc}>{data.adress}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>Date de naissance :</Text>
+                    <Text style={styles.titleDesc}>Code postal :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.dateOfBirth}</Text>
+                    <Text style={styles.desc}>{data.postalCode}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
                     <Text style={styles.titleDesc}>Ville :</Text>
@@ -121,34 +117,16 @@ const CandidatDetails = ({ route, navigation }) => {
                     <Text style={styles.desc}>{city.name}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>
-                        Dernier diplome obtenu :
-                    </Text>
+                    <Text style={styles.titleDesc}>Numero de tel :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.lastDiplomaObtained}</Text>
+                    <Text style={styles.desc}>{data.phone}</Text>
                 </View>
                 <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>
-                        Dernière expérience professionnelle :
-                    </Text>
+                    <Text style={styles.titleDesc}>Site web :</Text>
                 </View>
                 <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.lastExperiencepro}</Text>
-                </View>
-                <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>Hobby :</Text>
-                </View>
-                <View style={styles.descContainer}>
-                    <Text style={styles.desc}>{data.hobbies}</Text>
-                </View>
-                <View style={styles.titleDescContainer}>
-                    <Text style={styles.titleDesc}>CV :</Text>
-                </View>
-                <View style={styles.descContainer}>
-                    <TouchableOpacity onPress={() => Linking.openURL(data.cv)}>
-                        <Text style={styles.desc}>{data.firstName}_cv.pdf</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.desc}>{data.website}</Text>
                 </View>
             </ScrollView>
 
@@ -157,12 +135,14 @@ const CandidatDetails = ({ route, navigation }) => {
                     style={styles.btn}
                     onPress={handleSubmitRemove}
                 >
-                    <Text style={styles.textBtn}>SUPPRIMER CANDIDAT</Text>
+                    <Text style={styles.textBtn}>SUPPRIMER EMPLOYEUR</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 };
+
+export default EmployerDetails;
 
 const styles = StyleSheet.create({
     container: {
@@ -240,5 +220,3 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
     },
 });
-
-export default CandidatDetails;

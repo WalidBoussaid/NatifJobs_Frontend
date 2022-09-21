@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const AddCategoryJob = () => {
     const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const AddCategoryJob = () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            "http://192.168.0.119:3000/category/allCategory",
+            `http://${ip}:3000//category/allCategory`,
             {
                 method: "GET",
                 headers: {
@@ -58,7 +59,7 @@ const AddCategoryJob = () => {
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/category/addCategory",
+                    `http://${ip}:3000//category/addCategory`,
                     {
                         method: "POST",
                         body: JSON.stringify(category),
@@ -107,7 +108,7 @@ const AddCategoryJob = () => {
                             };
                             try {
                                 const response = await fetch(
-                                    "http://192.168.0.119:3000/category/deleteCategory",
+                                    `http://${ip}:3000/category/deleteCategory`,
                                     {
                                         method: "DELETE",
                                         body: JSON.stringify(cat),

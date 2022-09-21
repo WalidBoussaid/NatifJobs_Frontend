@@ -10,6 +10,7 @@ import RgpdUpdate from "../screen/RgpdUpdate";
 import ListCandidate from "../screen/ListCandidate";
 import ListEmployer from "../screen/ListEmployer";
 import CandidatDetails from "../screen/CandidatDetails";
+import EmployerDetails from "../screen/EmployerDetails";
 
 const StackNav = createStackNavigator();
 
@@ -81,6 +82,13 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={CandidatDetails}
                 options={{
                     title: "Profil candidat",
+                }}
+            />
+            <StackNav.Screen
+                name="EmployerDetails"
+                component={EmployerDetails}
+                options={{
+                    title: "Profil employeur",
                 }}
             />
         </StackNav.Navigator>

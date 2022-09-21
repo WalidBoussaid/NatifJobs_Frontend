@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const OfferDetails = ({ route, navigation }) => {
     const [title, setTitle] = useState("");
@@ -28,7 +29,7 @@ const OfferDetails = ({ route, navigation }) => {
             const tok = await AsyncStorage.getItem("token");
             try {
                 const response = await fetch(
-                    `http://192.168.0.119:3000/offer/myOffer/${id}`,
+                    `http://${ip}:3000/offer/myOffer/${id}`,
                     {
                         method: "GET",
                         headers: {
@@ -54,15 +55,12 @@ const OfferDetails = ({ route, navigation }) => {
 
         const fetchCity = async () => {
             try {
-                const response = await fetch(
-                    "http://192.168.0.119:3000/city/allCity",
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
+                const response = await fetch(`http://${ip}:3000/city/allCity`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
                 if (response.ok) {
                     const result = await response.json();
@@ -77,7 +75,7 @@ const OfferDetails = ({ route, navigation }) => {
             const tok = await AsyncStorage.getItem("token");
             try {
                 const response = await fetch(
-                    "http://192.168.0.119:3000/category/allCategory",
+                    `http://${ip}:3000/category/allCategory`,
                     {
                         method: "GET",
                         headers: {
@@ -100,7 +98,7 @@ const OfferDetails = ({ route, navigation }) => {
             const tok = await AsyncStorage.getItem("token");
             try {
                 const response = await fetch(
-                    "http://192.168.0.119:3000/typeOffer/allTypeOffer",
+                    `http://${ip}:3000/typeOffer/allTypeOffer`,
                     {
                         method: "GET",
                         headers: {
@@ -161,7 +159,7 @@ const OfferDetails = ({ route, navigation }) => {
                 };
 
                 const response = await fetch(
-                    `http://192.168.0.119:3000/offer/updateMyOffer/${id}`,
+                    `http://${ip}:3000/offer/updateMyOffer/${id}`,
                     {
                         method: "POST",
                         body: JSON.stringify(offer),
@@ -189,7 +187,7 @@ const OfferDetails = ({ route, navigation }) => {
         const tok = await AsyncStorage.getItem("token");
         try {
             const response = await fetch(
-                `http://192.168.0.119:3000/offer/deleteOffer/${id}`,
+                `http://${ip}:3000/offer/deleteOffer/${id}`,
                 {
                     method: "DELETE",
                     body: JSON.stringify(offer),

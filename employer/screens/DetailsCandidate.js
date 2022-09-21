@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const DetailsCandidate = ({ route, navigation }) => {
     const [data, setData] = useState([]);
@@ -29,7 +30,7 @@ const DetailsCandidate = ({ route, navigation }) => {
                 candId: idCand,
             };
             const response = await fetch(
-                `http://192.168.0.119:3000/candidate/findCandidate/${idCand}`,
+                `http://${ip}:3000/candidate/findCandidate/${idCand}`,
                 {
                     method: "POST",
                     body: JSON.stringify(cand),
@@ -58,7 +59,7 @@ const DetailsCandidate = ({ route, navigation }) => {
                 offerId: idOffer,
             };
             const response = await fetch(
-                "http://192.168.0.119:3000/historyEmployer/findOneHistoryEmployer",
+                `http://${ip}:3000/historyEmployer/findOneHistoryEmployer`,
                 {
                     method: "POST",
                     body: JSON.stringify(hist),
@@ -97,7 +98,7 @@ const DetailsCandidate = ({ route, navigation }) => {
             };
 
             const response = await fetch(
-                `http://192.168.0.119:3000/historyEmployer/createHistoryEmployer`,
+                `http://${ip}:3000/historyEmployer/createHistoryEmployer`,
                 {
                     method: "POST",
                     body: JSON.stringify(historyLike),
@@ -132,7 +133,7 @@ const DetailsCandidate = ({ route, navigation }) => {
             };
 
             const response = await fetch(
-                `http://192.168.0.119:3000/historyEmployer/createHistoryEmployer`,
+                `http://${ip}:3000/historyEmployer/createHistoryEmployer`,
                 {
                     method: "POST",
                     body: JSON.stringify(historyLike),

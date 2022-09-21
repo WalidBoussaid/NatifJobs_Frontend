@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const AddOfferEmployer = ({ navigation }) => {
     const [title, setTitle] = useState("");
@@ -24,16 +25,13 @@ const AddOfferEmployer = ({ navigation }) => {
         const fetchCity = async () => {
             try {
                 const tok = await AsyncStorage.getItem("token");
-                const response = await fetch(
-                    "http://192.168.0.119:3000/city/allCity",
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
+                const response = await fetch(`http://${ip}:3000/city/allCity`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                });
 
                 if (response.ok) {
                     const result = await response.json();
@@ -48,7 +46,7 @@ const AddOfferEmployer = ({ navigation }) => {
             try {
                 const tok = await AsyncStorage.getItem("token");
                 const response = await fetch(
-                    "http://192.168.0.119:3000/category/allCategory",
+                    `http://${ip}:3000/category/allCategory`,
                     {
                         method: "GET",
                         headers: {
@@ -71,7 +69,7 @@ const AddOfferEmployer = ({ navigation }) => {
             try {
                 const tok = await AsyncStorage.getItem("token");
                 const response = await fetch(
-                    "http://192.168.0.119:3000/typeOffer/allTypeOffer",
+                    `http://${ip}:3000/typeOffer/allTypeOffer`,
 
                     {
                         method: "GET",
@@ -135,7 +133,7 @@ const AddOfferEmployer = ({ navigation }) => {
                 };
 
                 const response = await fetch(
-                    "http://192.168.0.119:3000/offer/addOffer",
+                    `http://${ip}:3000/offer/addOffer`,
                     {
                         method: "POST",
                         body: JSON.stringify(offer),

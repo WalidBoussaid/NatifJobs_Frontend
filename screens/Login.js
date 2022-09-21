@@ -11,6 +11,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../ip";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -56,16 +57,13 @@ const Login = ({ navigation }) => {
                     password: password,
                 };
 
-                const response = await fetch(
-                    "http://192.168.0.119:3000/login/",
-                    {
-                        method: "POST",
-                        body: JSON.stringify(log),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
+                const response = await fetch(`http://${ip}:3000/login/`, {
+                    method: "POST",
+                    body: JSON.stringify(log),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
                 if (response.ok) {
                     const data = await response.json();

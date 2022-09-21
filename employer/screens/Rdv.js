@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ip } from "../../ip";
 
 const Rdv = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -14,16 +15,13 @@ const Rdv = ({ navigation }) => {
         try {
             const tok = await AsyncStorage.getItem("token"); //recupère le token
 
-            const response = await fetch(
-                "http://192.168.0.119:3000/rdv/allRdv",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                    },
-                }
-            );
+            const response = await fetch(`http://${ip}:3000/rdv/allRdv`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+                },
+            });
 
             if (response.ok) {
                 const result = await response.json();
@@ -60,7 +58,7 @@ const Rdv = ({ navigation }) => {
                                 };
                                 try {
                                     const response = await fetch(
-                                        "http://192.168.0.119:3000/rdv/deleteRdv",
+                                        `http://${ip}:3000/rdv/deleteRdv`,
                                         {
                                             method: "DELETE",
                                             body: JSON.stringify(rdv),

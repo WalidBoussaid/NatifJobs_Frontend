@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-modern-datepicker";
+import { ip } from "../../ip";
 
 const AddRdv = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -24,7 +25,7 @@ const AddRdv = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
         try {
             const response = await fetch(
-                "http://192.168.0.119:3000/match/allMatchEmployer",
+                `http://${ip}:3000/match/allMatchEmployer`,
                 {
                     method: "GET",
                     headers: {
@@ -79,18 +80,15 @@ const AddRdv = ({ navigation }) => {
                     offerId: offer,
                 };
 
-                const response = await fetch(
-                    "http://192.168.0.119:3000/rdv/addRdv",
-                    {
-                        method: "POST",
-                        body: JSON.stringify(rdv),
-                        headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
+                const response = await fetch(`http://${ip}:3000/rdv/addRdv`, {
+                    method: "POST",
+                    body: JSON.stringify(rdv),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                });
 
                 if (response.ok) {
                     navigation.replace("Rdv");

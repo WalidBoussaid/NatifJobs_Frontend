@@ -16,7 +16,7 @@ const RgpdUpdate = ({ navigation }) => {
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
-        const response = await fetch("http://192.168.0.119:3000/rgpd/", {
+        const response = await fetch(`http://${ip}:3000/rgpd/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const RgpdUpdate = ({ navigation }) => {
                     text: text,
                 };
                 const response = await fetch(
-                    "http://192.168.0.119:3000/rgpd/updateRgpd",
+                    `http://${ip}:3000/rgpd/updateRgpd`,
                     {
                         method: "POST",
                         body: JSON.stringify(rgpd),
