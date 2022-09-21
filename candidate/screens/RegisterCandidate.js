@@ -22,6 +22,7 @@ import Rgpd from "../../screens/Rgpd";
 const RegisterCandidate = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
+    const [verifyPwd, setVerifyPwd] = useState("");
     const [lastName, setLastName] = useState("");
     const [firstName, setFirsttName] = useState("");
     const [email, setEmail] = useState(mail);
@@ -70,12 +71,12 @@ const RegisterCandidate = ({ route, navigation }) => {
 
     useEffect(() => {
         fetchCity();
-        console.log(pdfName);
     }, []);
 
     const handleSubmit = async () => {
         try {
             let isVerified = true;
+            let isVerifiedPwd = true;
 
             if (
                 !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(mail) ||
@@ -88,6 +89,11 @@ const RegisterCandidate = ({ route, navigation }) => {
             if (password.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+            if (verifyPwd !== password) {
+                isVerified = false;
+                isVerifiedPwd = false;
+                alert("Veuillez confirmer avec un mot de passe identique !");
             }
             if (firstName.length < 2 || !/^[aA-zZ]+$/.test(firstName)) {
                 isVerified = false;
@@ -152,7 +158,11 @@ const RegisterCandidate = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             }
-            if (isVerified && isChecked) {
+            if (
+                isVerified == true &&
+                isChecked == true &&
+                isVerifiedPwd == true
+            ) {
                 const cand = {
                     mail: mail,
                     password: password,
@@ -276,6 +286,13 @@ const RegisterCandidate = ({ route, navigation }) => {
                         style={styles.input}
                         secureTextEntry
                         onChangeText={(text) => setPassword(text)}
+                    />
+                    <Text style={styles.sousText}>Confirmer mot de passe</Text>
+                    <TextInput
+                        placeholder="Confirmer mot de passe"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setVerifyPwd(text)}
                     />
 
                     <Text style={styles.text}>Informations</Text>

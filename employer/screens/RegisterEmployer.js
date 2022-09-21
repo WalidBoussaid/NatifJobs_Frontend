@@ -21,6 +21,7 @@ import Rgpd from "../../screens/Rgpd";
 const RegisterEmployer = ({ route, navigation }) => {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
+    const [verifyPwd, setVerifyPwd] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState(mail);
     const [profilImg, setProfilImg] = useState(
@@ -65,6 +66,7 @@ const RegisterEmployer = ({ route, navigation }) => {
     const handleSubmit = async () => {
         try {
             let isVerified = true;
+            let isVerifiedPwd = true;
 
             if (
                 !/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/.test(mail) ||
@@ -77,6 +79,11 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (password.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+            if (verifyPwd !== password) {
+                isVerified = false;
+                isVerifiedPwd = false;
+                alert("Veuillez confirmer avec un mot de passe identique !");
             }
 
             if (name.length < 2) {
@@ -115,7 +122,11 @@ const RegisterEmployer = ({ route, navigation }) => {
             if (isChecked !== true) {
                 alert("Veuillez accepter les mentions légales");
             }
-            if (isVerified && isChecked == true) {
+            if (
+                isVerified == true &&
+                isChecked == true &&
+                isVerifiedPwd == true
+            ) {
                 const emp = {
                     mail: mail,
                     password: password,
@@ -189,6 +200,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Log's</Text>
 
+                    <Text style={styles.sousText}>Email</Text>
                     <TextInput
                         placeholder="Votre email"
                         style={styles.input}
@@ -196,12 +208,22 @@ const RegisterEmployer = ({ route, navigation }) => {
                         onChangeText={(text) => setMail(text)}
                     />
 
+                    <Text style={styles.sousText}>Mot de passe</Text>
                     <TextInput
                         placeholder="Votre Mot De Passe"
                         style={styles.input}
                         secureTextEntry
                         onChangeText={(text) => setPassword(text)}
                     />
+
+                    <Text style={styles.sousText}>Confirmer mot de passe</Text>
+                    <TextInput
+                        placeholder="Confirmer Mot De Passe"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setVerifyPwd(text)}
+                    />
+
                     <Text style={styles.text}>Informations société</Text>
 
                     <TextInput

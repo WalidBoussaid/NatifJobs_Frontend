@@ -7,6 +7,8 @@ import AddCategoryJob from "../screen/AddCategoryJob";
 import AddCity from "../screen/AddCity";
 import AddTypeOffer from "../screen/AddTypeOffer";
 import RgpdUpdate from "../screen/RgpdUpdate";
+import ListCandidate from "../screen/ListCandidate";
+import ListEmployer from "../screen/ListEmployer";
 
 const StackNav = createStackNavigator();
 
@@ -57,6 +59,20 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={RgpdUpdate}
                 options={{
                     title: "Mention légale",
+                }}
+            />
+            <StackNav.Screen
+                name="ListEmployer"
+                component={ListEmployer}
+                options={{
+                    title: "Liste employeur",
+                }}
+            />
+            <StackNav.Screen
+                name="ListCandidate"
+                component={ListCandidate}
+                options={{
+                    title: "Liste candidat",
                 }}
             />
         </StackNav.Navigator>
