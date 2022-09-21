@@ -9,6 +9,7 @@ import AddTypeOffer from "../screen/AddTypeOffer";
 import RgpdUpdate from "../screen/RgpdUpdate";
 import ListCandidate from "../screen/ListCandidate";
 import ListEmployer from "../screen/ListEmployer";
+import CandidatDetails from "../screen/CandidatDetails";
 
 const StackNav = createStackNavigator();
 
@@ -73,6 +74,13 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={ListCandidate}
                 options={{
                     title: "Liste candidat",
+                }}
+            />
+            <StackNav.Screen
+                name="CandidatDetails"
+                component={CandidatDetails}
+                options={{
+                    title: "Profil candidat",
                 }}
             />
         </StackNav.Navigator>
