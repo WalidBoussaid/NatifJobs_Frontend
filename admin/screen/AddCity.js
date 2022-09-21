@@ -55,18 +55,15 @@ const AddCity = () => {
                     cityName: city,
                 };
 
-                const response = await fetch(
-                    `http://${ip}:3000//city/addCity`,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(cit),
-                        headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
+                const response = await fetch(`http://${ip}:3000/city/addCity`, {
+                    method: "POST",
+                    body: JSON.stringify(cit),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`,
+                    },
+                });
 
                 if (response.ok) {
                     fetchData();

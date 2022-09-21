@@ -17,16 +17,13 @@ const AddCategoryJob = () => {
     const fetchData = async () => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
-        const response = await fetch(
-            `http://${ip}:3000//category/allCategory`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
-                },
-            }
-        );
+        const response = await fetch(`http://${ip}:3000/category/allCategory`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+            },
+        });
 
         if (response.ok) {
             const result = await response.json();
@@ -59,7 +56,7 @@ const AddCategoryJob = () => {
                 };
 
                 const response = await fetch(
-                    `http://${ip}:3000//category/addCategory`,
+                    `http://${ip}:3000/category/addCategory`,
                     {
                         method: "POST",
                         body: JSON.stringify(category),
