@@ -222,7 +222,8 @@ const ProfilCandidate = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token");
         try {
             let isVerified = true;
-            let passwordVerified = true;
+            let newPasswordExist = true;
+            let verifyNewPasswordExist = true;
             let newPasswordVerified = true;
 
             if (
@@ -233,29 +234,21 @@ const ProfilCandidate = ({ navigation }) => {
                 console.log("mail");
                 alert("Veuillez entrer un email valide");
             }
-            if (password !== oldPassword) {
-                isVerified = false;
-                passwordVerified = false;
-                alert("Mot de passe incorrect");
-            }
             if (newPassword == null || newPassword == "") {
-                newPasswordVerified = false;
+                newPasswordExist = false;
             }
-            if (newPasswordVerified && newPassword.length < 6) {
+            if (newPasswordExist && newPassword.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
             }
-            if (
-                (newPassword !== null || newPassword !== "") &&
-                (verifyNewPassword == null || verifyNewPassword == "")
-            ) {
+            if (verifyNewPassword == null || verifyNewPassword == "") {
+                verifyNewPasswordExist = false;
+            }
+            if (newPasswordExist && verifyNewPasswordExist == false) {
                 newPasswordVerified = false;
                 alert("Veuillez confirmer votre nouveau mot de passe");
             }
-            if (
-                (newPassword !== null || newPassword !== "") &&
-                newPassword !== verifyNewPassword
-            ) {
+            if (newPasswordExist && newPassword !== verifyNewPassword) {
                 isVerified = false;
                 newPasswordVerified = false;
                 alert("Confirmation mot de passe incorrect");
@@ -322,47 +315,11 @@ const ProfilCandidate = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un nom de cv avec min 4 caractères");
             }
-            if (isVerified && passwordVerified && newPasswordVerified) {
-                const cand = {
-                    mail: mail,
-                    password: newPassword,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    profilImg:
-                        urlProfilImage == "" ? profilImg : urlProfilImage,
-                    nationality: nationality,
-                    adress: adress,
-                    postalCode: postalCode,
-                    dateOfBirth: dateOfBirth,
-                    lastDiplomaObtained: lastDiplomaObtained,
-                    lastExperiencepro: lastExperiencepro,
-                    hobbies: hobbies,
-                    cv: urlCvPdf == "" ? cv : urlCvPdf,
-                    cityId: selectedCity.id,
-                };
-
-                const response = await fetch(
-                    `http://${ip}:3000/candidate/updateCandidate/${loginId}`,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(cand),
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
-                if (response.ok) {
-                    navigation.replace("HomeCandidate");
-                } else {
-                    const error = await response.json();
-                    console.log(error);
-                }
-            } else if (isVerified && passwordVerified && !newPasswordVerified) {
+            if (isVerified && newPasswordVerified) {
                 const cand = {
                     mail: mail,
                     password: password,
+                    newPassword: newPassword,
                     firstName: firstName,
                     lastName: lastName,
                     email: email,

@@ -14,7 +14,6 @@ import { ip } from "../../ip";
 const Profil = ({ navigation }) => {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
-    const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [verifyNewPassword, setVerifyNewPassword] = useState("");
     const [name, setName] = useState("");
@@ -45,7 +44,6 @@ const Profil = ({ navigation }) => {
             if (response.ok) {
                 const result = await response.json();
                 setLogin(result);
-                setOldPassword(result.password);
                 setMail(result.mail);
             }
         } catch (error) {
@@ -88,7 +86,7 @@ const Profil = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token");
         try {
             let isVerified = true;
-            let passwordVerified = true;
+            let newPasswordExist = true;
             let newPasswordVerified = true;
 
             if (
@@ -99,29 +97,22 @@ const Profil = ({ navigation }) => {
                 console.log("mail");
                 alert("Veuillez entrer un email valide");
             }
-            if (password !== oldPassword) {
-                isVerified = false;
-                passwordVerified = false;
-                alert("Mot de passe incorrect");
-            }
+
             if (newPassword == null || newPassword == "") {
-                newPasswordVerified = false;
+                newPasswordExist = false;
             }
-            if (newPasswordVerified && newPassword.length < 6) {
+            if (newPasswordExist && newPassword.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
             }
             if (
-                newPasswordVerified &&
+                newPasswordExist &&
                 (verifyNewPassword == null || verifyNewPassword == "")
             ) {
                 newPasswordVerified = false;
                 alert("Veuillez confirmer votre nouveau mot de passe");
             }
-            if (
-                (newPassword !== null || newPassword !== "") &&
-                newPassword !== verifyNewPassword
-            ) {
+            if (newPasswordExist && newPassword !== verifyNewPassword) {
                 isVerified = false;
                 newPasswordVerified = false;
                 alert("Confirmation mot de passe incorrect");
@@ -135,35 +126,11 @@ const Profil = ({ navigation }) => {
                 alert("Veuillez entrer un nom avec min 2 caractères");
             }
 
-            if (isVerified && passwordVerified && newPasswordVerified) {
-                const admin = {
-                    mail: mail,
-                    password: newPassword,
-                    firstName: firstName,
-                    name: name,
-                };
-
-                const response = await fetch(
-                    `http://${ip}:3000/admin/updateAdmin`,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(admin),
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
-                if (response.ok) {
-                    navigation.replace("HomeAdmin");
-                } else {
-                    const error = await response.json();
-                    console.log(error);
-                }
-            } else if (isVerified && passwordVerified && !newPasswordVerified) {
+            if (isVerified && newPasswordVerified) {
                 const admin = {
                     mail: mail,
                     password: password,
+                    newPassword: newPassword,
                     firstName: firstName,
                     name: name,
                 };
@@ -183,7 +150,7 @@ const Profil = ({ navigation }) => {
                     navigation.replace("HomeAdmin");
                 } else {
                     const error = await response.json();
-                    console.log(error);
+                    console.log(error.err);
                 }
             }
         } catch (error) {

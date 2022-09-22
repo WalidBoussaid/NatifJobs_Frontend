@@ -144,7 +144,8 @@ const ProfilEmployer = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token");
         try {
             let isVerified = true;
-            let passwordVerified = true;
+            let newPasswordExist = true;
+            let verifyNewPasswordExist = true;
             let newPasswordVerified = true;
 
             if (
@@ -154,32 +155,26 @@ const ProfilEmployer = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un email valide");
             }
-            if (password !== oldPassword) {
-                isVerified = false;
-                passwordVerified = false;
-                alert("Mot de passe incorrect");
-            }
             if (newPassword == null || newPassword == "") {
-                newPasswordVerified = false;
+                newPasswordExist = false;
             }
-            if (newPasswordVerified && newPassword.length < 6) {
+            if (newPasswordExist && newPassword.length < 6) {
                 isVerified = false;
-                alert("Veuillez entrer un mot de passe à min 6 caractères");
+                alert(
+                    "Veuillez entrer un nouveau mot de passe à min 6 caractères"
+                );
             }
-            if (
-                (newPassword !== null || newPassword !== "") &&
-                (verifyNewPassword == null || verifyNewPassword == "")
-            ) {
+            if (verifyNewPassword == null || verifyNewPassword == "") {
+                verifyNewPasswordExist = false;
+            }
+            if (newPasswordExist && verifyNewPasswordExist == false) {
                 newPasswordVerified = false;
                 alert("Veuillez confirmer votre nouveau mot de passe");
             }
-            if (
-                (newPassword !== null || newPassword !== "") &&
-                newPassword !== verifyNewPassword
-            ) {
+            if (newPasswordExist && newPassword !== verifyNewPassword) {
                 isVerified = false;
                 newPasswordVerified = false;
-                alert("Confirmation mot de passe incorrect");
+                alert("Confirmation nouveau mot de passe incorrect");
             }
             if (name.length < 2) {
                 isVerified = false;
@@ -214,42 +209,11 @@ const ProfilEmployer = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un site web avec min 5 caractères");
             }
-            if (isVerified && passwordVerified && newPasswordVerified) {
-                const emp = {
-                    mail: mail,
-                    password: newPassword,
-                    name: name,
-                    email: email,
-                    cityId: selectedCity.id,
-                    adress: adress,
-                    postalCode: postalCode,
-                    phone: phone,
-                    profilImg:
-                        urlProfilImage == "" ? profilImg : urlProfilImage,
-                    website: website,
-                };
-
-                const response = await fetch(
-                    `http://${ip}:3000/employer/employerUpdate/${loginId}`,
-                    {
-                        method: "POST",
-                        body: JSON.stringify(emp),
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${tok}`,
-                        },
-                    }
-                );
-                if (response.ok) {
-                    navigation.replace("HomeEmployer");
-                } else {
-                    const error = await response.json();
-                    console.log(error);
-                }
-            } else if (isVerified && passwordVerified && !newPasswordVerified) {
+            if (isVerified && newPasswordVerified) {
                 const emp = {
                     mail: mail,
                     password: password,
+                    newPassword: newPassword,
                     name: name,
                     email: email,
                     cityId: selectedCity.id,
