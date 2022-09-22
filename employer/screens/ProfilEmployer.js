@@ -22,6 +22,7 @@ const ProfilEmployer = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [verifyNewPassword, setVerifyNewPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState(mail);
     const [profilImg, setProfilImg] = useState("");
@@ -164,6 +165,21 @@ const ProfilEmployer = ({ navigation }) => {
             if (newPasswordVerified && newPassword.length < 6) {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
+            }
+            if (
+                (newPassword !== null || newPassword !== "") &&
+                (verifyNewPassword == null || verifyNewPassword == "")
+            ) {
+                newPasswordVerified = false;
+                alert("Veuillez confirmer votre nouveau mot de passe");
+            }
+            if (
+                (newPassword !== null || newPassword !== "") &&
+                newPassword !== verifyNewPassword
+            ) {
+                isVerified = false;
+                newPasswordVerified = false;
+                alert("Confirmation mot de passe incorrect");
             }
             if (name.length < 2) {
                 isVerified = false;
@@ -323,6 +339,7 @@ const ProfilEmployer = ({ navigation }) => {
                         secureTextEntry
                         onChangeText={(text) => setPassword(text)}
                     />
+
                     <Text style={styles.sousText}>
                         Votre Nouveau Mot De Passe
                     </Text>
@@ -331,6 +348,16 @@ const ProfilEmployer = ({ navigation }) => {
                         style={styles.input}
                         secureTextEntry
                         onChangeText={(text) => setNewPassword(text)}
+                    />
+
+                    <Text style={styles.sousText}>
+                        Confirmer Votre Nouveau Mot De Passe
+                    </Text>
+                    <TextInput
+                        placeholder="Remplir si changement de mdp"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setVerifyNewPassword(text)}
                     />
 
                     <Text style={styles.text}>Informations société</Text>

@@ -23,6 +23,7 @@ const ProfilCandidate = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [verifyNewPassword, setVerifyNewPassword] = useState("");
     const [lastName, setLastName] = useState("");
     const [firstName, setFirsttName] = useState("");
     const [email, setEmail] = useState(mail);
@@ -244,6 +245,21 @@ const ProfilCandidate = ({ navigation }) => {
                 isVerified = false;
                 alert("Veuillez entrer un mot de passe à min 6 caractères");
             }
+            if (
+                (newPassword !== null || newPassword !== "") &&
+                (verifyNewPassword == null || verifyNewPassword == "")
+            ) {
+                newPasswordVerified = false;
+                alert("Veuillez confirmer votre nouveau mot de passe");
+            }
+            if (
+                (newPassword !== null || newPassword !== "") &&
+                newPassword !== verifyNewPassword
+            ) {
+                isVerified = false;
+                newPasswordVerified = false;
+                alert("Confirmation mot de passe incorrect");
+            }
             if (firstName.length < 2 || !/^[aA-zZ]+$/.test(firstName)) {
                 isVerified = false;
                 alert("Veuillez entrer un prenom avec min 2 caractères");
@@ -416,6 +432,16 @@ const ProfilCandidate = ({ navigation }) => {
                         style={styles.input}
                         secureTextEntry
                         onChangeText={(text) => setNewPassword(text)}
+                    />
+
+                    <Text style={styles.sousText}>
+                        Confirmer Votre Nouveau Mot De Passe
+                    </Text>
+                    <TextInput
+                        placeholder="Remplir si changement de mdp"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(text) => setVerifyNewPassword(text)}
                     />
 
                     <Text style={styles.text}>Modifier Informations</Text>
