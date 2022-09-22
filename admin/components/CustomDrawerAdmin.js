@@ -73,6 +73,17 @@ const CustomDrawerAdmin = ({ props, navigation }) => {
                             )}
                             onPress={() => navigation.replace("RgpdUpdate")}
                         />
+                        <DrawerItem
+                            label="Profil"
+                            icon={(color, size) => (
+                                <MaterialIcons
+                                    name="face"
+                                    size={20}
+                                    color={color}
+                                />
+                            )}
+                            onPress={() => navigation.replace("Profil")}
+                        />
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>

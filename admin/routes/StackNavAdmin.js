@@ -11,6 +11,7 @@ import ListCandidate from "../screen/ListCandidate";
 import ListEmployer from "../screen/ListEmployer";
 import CandidatDetails from "../screen/CandidatDetails";
 import EmployerDetails from "../screen/EmployerDetails";
+import Profil from "../screen/Profil";
 
 const StackNav = createStackNavigator();
 
@@ -89,6 +90,13 @@ const StackNavScreenAdmin = ({ navigation }) => {
                 component={EmployerDetails}
                 options={{
                     title: "Profil employeur",
+                }}
+            />
+            <StackNav.Screen
+                name="Profil"
+                component={Profil}
+                options={{
+                    title: "Modifier profil",
                 }}
             />
         </StackNav.Navigator>
