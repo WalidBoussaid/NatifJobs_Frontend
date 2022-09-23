@@ -3,8 +3,41 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { Drawer } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Badge } from "@rneui/themed";
+import { useEffect, useState } from "react";
+import { ip } from "../../ip";
 
 const CustomDrawerEmployer = ({ props, navigation }) => {
+    const [newNotif, setNewNotif] = useState([]);
+
+    let countNewNotif = newNotif.length;
+
+    const fetchNewNotif = async () => {
+        const tok = await AsyncStorage.getItem("token");
+        try {
+            const response = await fetch(
+                `http://${ip}:3000/notifEmployer/allNewNotif`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${tok}`, //donne l'autorisation et lui envoi le token
+                    },
+                }
+            );
+            if (response.ok) {
+                const result = await response.json();
+                setNewNotif(result);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchNewNotif();
+    }, []);
+
     const disconect = async () => {
         // suprime du asyncStorage le token et le role et redirige sur la page login
         await AsyncStorage.removeItem("token");
@@ -55,11 +88,14 @@ const CustomDrawerEmployer = ({ props, navigation }) => {
                         <DrawerItem
                             label="Notification"
                             icon={(color, size) => (
-                                <MaterialIcons
-                                    name="notifications"
-                                    size={20}
-                                    color={color}
-                                />
+                                (
+                                    <MaterialIcons
+                                        name="notifications"
+                                        size={20}
+                                        color={color}
+                                    />
+                                ),
+                                (<Badge status="error" value={countNewNotif} />)
                             )}
                             onPress={() => navigation.replace("NotifEmployer")}
                         />

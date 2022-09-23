@@ -32,8 +32,6 @@ const NotifEmployer = ({ navigation }) => {
         if (response.ok) {
             const result = await response.json();
             setData(result);
-
-            //console.log(data[0].categoryJob.name);
         } else {
             alert("Pas de notif à afficher !");
         }
@@ -63,10 +61,6 @@ const NotifEmployer = ({ navigation }) => {
         } else {
             alert("Pas de notif à afficher !");
         }
-        navigation.navigate("DetailsCandidate", {
-            idCand: candidateId,
-            idOffer: offerId,
-        });
     };
     useEffect(() => {
         fetchData();
@@ -84,6 +78,14 @@ const NotifEmployer = ({ navigation }) => {
                             candidateId = item.candidateId;
                             offerId = item.offerId;
                             handleVisited();
+                            if (item.matchId == null || item.matchId == "") {
+                                navigation.navigate("DetailsCandidate", {
+                                    idCand: candidateId,
+                                    idOffer: offerId,
+                                });
+                            } else {
+                                navigation.navigate("MessageEmployer");
+                            }
                         }}
                     >
                         {item.visited == true ? (
