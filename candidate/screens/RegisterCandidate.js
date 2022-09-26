@@ -164,10 +164,12 @@ const RegisterCandidate = ({ route, navigation }) => {
                 const cand = {
                     mail: mail,
                     password: password,
+                    confirmPwd: verifyPwd,
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
-                    profilImg: urlProfilImage,
+                    profilImg:
+                        urlProfilImage == "" ? profilImg : urlProfilImage,
                     nationality: nationality,
                     adress: adress,
                     postalCode: postalCode,

@@ -128,13 +128,15 @@ const RegisterEmployer = ({ route, navigation }) => {
                 const emp = {
                     mail: mail,
                     password: password,
+                    confirmPwd: verifyPwd,
                     name: name,
                     email: email,
                     cityId: selectedCity.id,
                     adress: adress,
                     postalCode: postalCode,
                     phone: phone,
-                    profilImg: urlProfilImage,
+                    profilImg:
+                        urlProfilImage == "" ? profilImg : urlProfilImage,
                     website: website,
                 };
 
