@@ -16,7 +16,7 @@ const MessageCandidate = ({ navigation }) => {
         const tok = await AsyncStorage.getItem("token"); //recupère le token
 
         const response = await fetch(
-            `http://${ip}:3000/match/allMatchEmployer`,
+            `http://${ip}:3000/match/allMatchCandidate`,
             {
                 method: "GET",
                 headers: {

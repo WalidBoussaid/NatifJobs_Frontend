@@ -10,30 +10,10 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "../ip";
 
-const Login = ({ navigation }) => {
+const ForgotPwd = ({ navigation }) => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    useEffect(() => {
-        const verifyConnect = async () => {
-            const token = await AsyncStorage.getItem("token");
-            const role = await AsyncStorage.getItem("role");
-
-            if (token) {
-                if (role == "candidate") {
-                    navigation.replace("HomeCandidate");
-                } else if (role == "employer") {
-                    navigation.replace("HomeEmployer");
-                } else {
-                    navigation.replace("HomeAdmin");
-                }
-            }
-        };
-        verifyConnect();
-    }, []);
 
     const handleSubmit = async () => {
         try {
@@ -46,39 +26,25 @@ const Login = ({ navigation }) => {
                 alert("Veuillez entrer un email valide");
             }
 
-            if (password.length < 6) {
-                isVerified = false;
-                alert("Veuillez entrer un mot de passe à min 6 caractères");
-            }
-
             if (isVerified) {
                 const log = {
                     mail: email,
-                    password: password,
                 };
 
-                const response = await fetch(`http://${ip}:3000/login/`, {
-                    method: "POST",
-                    body: JSON.stringify(log),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+                const response = await fetch(
+                    `http://${ip}:3000/login/ressetPassword`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(log),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
 
                 if (response.ok) {
-                    const data = await response.json();
-                    const token = data.token;
-
-                    await AsyncStorage.setItem("token", token);
-                    await AsyncStorage.setItem("role", data.role);
-
-                    if (data.role == "candidate") {
-                        navigation.navigate("HomeCandidate");
-                    } else if (data.role == "employer") {
-                        navigation.navigate("HomeEmployer");
-                    } else {
-                        navigation.replace("HomeAdmin");
-                    }
+                    alert("Email envoyé");
+                    navigation.replace("Login");
                 } else {
                     const error = await response.json();
                     alert("Email ou mot de passe incorrect");
@@ -88,7 +54,6 @@ const Login = ({ navigation }) => {
             console.log(error.message);
         }
     };
-
     return (
         <LinearGradient colors={["teal", "white"]} style={styles.container}>
             <View style={styles.logo}>
@@ -96,19 +61,15 @@ const Login = ({ navigation }) => {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.text}>Connexion</Text>
+                <Text style={styles.text}>
+                    Entrez votre email pour recevoir un nouveau mot de passe
+                </Text>
 
                 <TextInput
                     placeholder="Votre email"
                     keyboardType="email-address"
                     style={styles.input}
                     onChangeText={(text) => setEmail(text)}
-                />
-                <TextInput
-                    placeholder="Votre mot de passe"
-                    secureTextEntry
-                    style={styles.input}
-                    onChangeText={(text) => setPassword(text)}
                 />
                 <TouchableOpacity
                     style={styles.touchable}
@@ -118,16 +79,6 @@ const Login = ({ navigation }) => {
                         <Text style={styles.btnText}>Valider</Text>
                     </View>
                 </TouchableOpacity>
-                <Pressable onPress={() => navigation.navigate("Register")}>
-                    <Text style={{ textAlign: "center", marginTop: 9 }}>
-                        Vers Inscription
-                    </Text>
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate("ForgotPwd")}>
-                    <Text style={{ textAlign: "center", marginTop: 9 }}>
-                        Mot de passe oublié
-                    </Text>
-                </Pressable>
             </View>
         </LinearGradient>
     );
@@ -175,4 +126,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default ForgotPwd;

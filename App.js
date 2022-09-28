@@ -10,6 +10,7 @@ import DrawerNavEmployer from "./employer/routes/DrawerNavEmployer";
 import { LogBox } from "react-native";
 import DrawerNavAdmin from "./admin/routes/DrawerNavAdmin";
 import Rgpd from "./screens/Rgpd";
+import ForgotPwd from "./screens/ForgotPwd";
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,11 @@ export default function App() {
                     name="Rgpd"
                     component={Rgpd}
                     options={{ title: "Mention légale" }}
+                />
+                <Stack.Screen
+                    name="ForgotPwd"
+                    component={ForgotPwd}
+                    options={{ title: "Mot de passe oublié" }}
                 />
                 <Stack.Screen name="HomeAdmin" component={DrawerNavAdmin} />
             </Stack.Navigator>
