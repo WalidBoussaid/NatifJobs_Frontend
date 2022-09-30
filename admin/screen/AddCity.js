@@ -102,7 +102,7 @@ const AddCity = () => {
                             };
                             try {
                                 const response = await fetch(
-                                    `http://${ip}:3000/:3000/city/deleteCity`,
+                                    `http://${ip}:3000/city/deleteCity`,
                                     {
                                         method: "DELETE",
                                         body: JSON.stringify(cat),
