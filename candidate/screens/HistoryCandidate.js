@@ -35,7 +35,6 @@ const HistoryCandidate = ({ navigation }) => {
         if (response.ok) {
             const result = await response.json();
             setData(result);
-            console.log(data);
         } else {
             alert("Pas de offre à afficher !");
         }

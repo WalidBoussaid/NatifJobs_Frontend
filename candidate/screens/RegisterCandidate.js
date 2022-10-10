@@ -81,7 +81,7 @@ const RegisterCandidate = ({ route, navigation }) => {
                 mail.length < 7
             ) {
                 isVerified = false;
-                console.log("mail");
+
                 alert("Veuillez entrer un email valide");
             }
             if (password.length < 6) {
@@ -208,7 +208,6 @@ const RegisterCandidate = ({ route, navigation }) => {
             let res = await DocumentPicker.getDocumentAsync({
                 type: "application/pdf",
             });
-            console.log(res);
 
             if (!res.cancelled) {
                 setCv(res.name);
@@ -237,7 +236,6 @@ const RegisterCandidate = ({ route, navigation }) => {
             aspect: [4, 3],
             quality: 1,
         });
-        console.log(result);
 
         if (!result.cancelled) {
             setProfilImg(result.uri);

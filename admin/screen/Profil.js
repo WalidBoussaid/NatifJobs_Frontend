@@ -94,7 +94,7 @@ const Profil = ({ navigation }) => {
                 mail.length < 7
             ) {
                 isVerified = false;
-                console.log("mail");
+
                 alert("Veuillez entrer un email valide");
             }
 
@@ -150,7 +150,6 @@ const Profil = ({ navigation }) => {
                     navigation.replace("HomeAdmin");
                 } else {
                     const error = await response.json();
-                    console.log(error.err);
                 }
             }
         } catch (error) {

@@ -160,7 +160,6 @@ const ProfilCandidate = ({ navigation }) => {
             let res = await DocumentPicker.getDocumentAsync({
                 type: "application/pdf",
             });
-            console.log(res);
 
             if (!res.cancelled) {
                 setCv(res.name);
@@ -189,7 +188,6 @@ const ProfilCandidate = ({ navigation }) => {
             aspect: [4, 3],
             quality: 1,
         });
-        console.log(result);
 
         if (!result.cancelled) {
             setProfilImg(result.uri);
@@ -231,7 +229,7 @@ const ProfilCandidate = ({ navigation }) => {
                 mail.length < 7
             ) {
                 isVerified = false;
-                console.log("mail");
+
                 alert("Veuillez entrer un email valide");
             }
             if (newPassword == null || newPassword == "") {
@@ -351,7 +349,6 @@ const ProfilCandidate = ({ navigation }) => {
                     navigation.replace("HomeCandidate");
                 } else {
                     const error = await response.json();
-                    console.log(error);
                 }
             }
         } catch (error) {

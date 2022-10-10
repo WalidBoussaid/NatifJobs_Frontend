@@ -79,7 +79,6 @@ const OfferDetails = ({ route, navigation }) => {
                 navigation.replace("HomeCandidate");
             } else {
                 const error = await response.json();
-                console.log(error);
             }
         } catch (error) {
             alert(error.message);
@@ -115,7 +114,6 @@ const OfferDetails = ({ route, navigation }) => {
                 navigation.replace("HomeCandidate");
             } else {
                 const error = await response.json();
-                console.log(error);
             }
         } catch (error) {
             alert(error.message);

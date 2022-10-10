@@ -71,7 +71,7 @@ const RegisterEmployer = ({ route, navigation }) => {
                 mail.length < 7
             ) {
                 isVerified = false;
-                console.log("mail");
+
                 alert("Veuillez entrer un email valide");
             }
             if (password.length < 6) {
@@ -169,7 +169,6 @@ const RegisterEmployer = ({ route, navigation }) => {
             aspect: [4, 3],
             quality: 1,
         });
-        console.log(result);
 
         if (!result.cancelled) {
             setProfilImg(result.uri);
